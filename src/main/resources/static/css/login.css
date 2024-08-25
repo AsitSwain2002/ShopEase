@@ -1,0 +1,106 @@
+@charset "ISO-8859-1";
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Rubik", sans-serif;
+}
+main{
+	height: 94.7vh;
+	width: 100%;
+}
+.mainContainer{
+    height: 60vh;
+    width: 50vw;
+    position: absolute;
+    transform: translate(-50%,20%);
+    left: 50%;
+    display: flex;
+/*    border: 2px dotted #0FB8E0;*/
+}
+h4{
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    padding-top: 20px;
+    color: #10B9E0;
+}
+.subContainer1{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    
+}
+.innerCon{
+    height: 85%;
+    width: 85%;
+    background-color: white;
+    box-shadow: 5px 5px 30px rgb(202, 198, 198);
+    padding-left: 15px;
+    border: 1px solid white;
+}
+.subHeead{
+    font-size: 0.8rem;
+    color: rgb(86, 84, 82);
+}
+.subHeead a{
+   color: #10B9E0;
+   font-weight: 700;
+}
+.pasAndforge a{
+    color: #10B9E0;
+    font-weight: 500;
+}
+.labelS1{
+    display: block;
+    margin-top: 20px;
+}
+
+.labelS{
+    display: block;
+}
+.pasAndforge{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 30px;
+    margin: 4px 0;
+}
+.email{
+    color: red;
+}
+.spaceAr{
+    margin: 0.5rem 0;
+    width: 90%;
+    height: 35px;
+    border-radius: 5px;
+    padding-left: 6px;
+    border: 1px solid #10B9E0;
+    outline: none;
+    font-family: "Briem Hand", cursive;
+}
+.Submit{
+    display: block;
+    width: 90%;
+    margin-top: 10px;
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #0690D8;
+    background-color: #10BBDF;
+    color: white;
+
+}
+.subContainer_2{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.subContainer_2 >img{
+    height:85%;
+    width: 95%;
+    box-shadow: 2px 2px 20px #af94d8;
+
+}
