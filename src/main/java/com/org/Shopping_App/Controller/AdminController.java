@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -21,10 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.org.Shopping_App.Dto.CatagoryDto;
-import com.org.Shopping_App.Entity.Catagory;
+import com.org.Shopping_App.Dto.ProductsDto;
 import com.org.Shopping_App.Service.CatagoryService;
+import com.org.Shopping_App.Service.ProductService;
+
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 
 @Controller
 @RequestMapping("/admin")
@@ -33,14 +35,12 @@ public class AdminController {
 	@Autowired
 	private CatagoryService catagoryService;
 
+	@Autowired
+	private ProductService productService;
+
 	@GetMapping("/")
 	public String viewIndex() {
 		return "admin/index";
-	}
-
-	@GetMapping("/loadAddProduct")
-	public String viewaddProduct() {
-		return "admin/addProduct";
 	}
 
 //Catagory Controller
@@ -66,9 +66,17 @@ public class AdminController {
 				session.setAttribute("errorMsg", "Something Went Wrong ! Internal Server Error");
 			} else {
 
-				File saveFile = new ClassPathResource("static/img").getFile();
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "category_img" + File.separator
-						+ file.getOriginalFilename());
+				File saveFile = new ClassPathResource("static/img/category_img").getFile();
+
+				// Create the directory if it doesn't exist
+				if (!saveFile.exists()) {
+					Files.createDirectories(saveFile.toPath());
+				}
+
+				// Define the path where the file will be saved
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+
+				// Copy the file to the target location, replacing existing one if any
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 				session.setAttribute("successMsg", "Saved Successfully");
 			}
@@ -84,16 +92,57 @@ public class AdminController {
 	}
 
 	@PostMapping("/updateCatagory")
-	public String updateCatagory(@ModelAttribute CatagoryDto catagoryDto, @RequestParam int id , @RequestParam ("file") MultipartFile file , HttpSession session) {
+	public String updateCatagory(@ModelAttribute CatagoryDto catagoryDto, @RequestParam int id,
+			@RequestParam("file") MultipartFile file, HttpSession session) {
 		catagoryService.updateCatagory(id, catagoryDto, file);
 		session.setAttribute("successMsg", "Updated Successfully");
 		session.setAttribute("errorMsg", "USomething Went Wrong");
-		return"redirect:/admin/updateCatagoryPage/"+catagoryDto.getId();
+		return "redirect:/admin/updateCatagoryPage/" + catagoryDto.getId();
 	}
 
 	@GetMapping("/deleteCatagory/{id}")
 	public String deleteCatagory(@PathVariable int id) {
 		catagoryService.deleteCatagory(id);
 		return "redirect:/admin/catagory";
+	}
+
+	// Add Product Start
+	@GetMapping("/loadAddProduct")
+	public String viewaddProduct(Model m) {
+		List<CatagoryDto> allCatagory = catagoryService.fetchAllCatagory();
+		m.addAttribute("allCatagory", allCatagory);
+		return "admin/addProduct";
+	}
+
+	@PostMapping("/saveProduct")
+	public String saveProduct(@ModelAttribute ProductsDto productDto, @RequestParam MultipartFile file,
+			HttpSession session) throws IOException {
+
+		String imageName = file != null ? file.getOriginalFilename() : "default.png";
+		productDto.setImageName(imageName);
+
+		ProductsDto product = productService.saveProduct(productDto);
+
+		if (!ObjectUtils.isEmpty(product)) {
+			// Get the directory where you want to save the file
+			File saveFile = new ClassPathResource("static/img/category_img").getFile();
+
+			// Create the directory if it doesn't exist
+			if (!saveFile.exists()) {
+				Files.createDirectories(saveFile.toPath());
+			}
+
+			// Define the path where the file will be saved
+			Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+
+			// Copy the file to the target location, replacing existing one if any
+			Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+			// Set a success message in the session
+			session.setAttribute("successMsg", "Added Successfully");
+		} else {
+			session.setAttribute("errorMsg", "Something Went Wrong");
+		}
+		return "redirect:/admin/loadAddProduct";
 	}
 }
