@@ -8,14 +8,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ProductsDto {
-	
+
 	private int id;
 	private String title;
 	private String description;
 	private String catagory;
-	private boolean status;
 	private double price;
+	private boolean status;
 	private int stock;
 	private String imageName;
-
+	private int discount;
+	private double discountPrice;
 }
+

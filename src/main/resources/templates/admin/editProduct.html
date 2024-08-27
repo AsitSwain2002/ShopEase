@@ -45,20 +45,31 @@
 								<textarea rows="3" cols="" class="form-control"
 									name="description">[[${product.description}]]</textarea>
 							</div>
+							<div class="row">
+								<div class="mb-3 col">
+									<label>Category</label>
+									<select class="form-control" name="catagory">
+										<option>[[${product.catagory}]]</option>
+										<option th:each="c:${catagory}">[[${c.name}]]</option>
+									</select>
+								</div>
 
-							<div class="mb-3">
-								<label>Category</label> 
-								<select class="form-control" name="catagory" >
-									<option>[[${product.catagory}]]</option>
-									<option th:each="c:${catagory}">[[${c.name}]]</option>
-								</select>
+								<div class="mb-3 col text-success">
+									<label>Enter Price</label> <input type="number" name="price" class="form-control"
+										th:value="${product.price}">
+								</div>
+								</div>
+								<div class="row">
+								<div class="mb-3 col">
+									<label>Discount</label> <input type="number" name="discount" class="form-control"
+										th:value="${product.discount}">
+								</div>
+								<div class="mb-3 col">
+									<label>Discount Price</label> <input type="number" class="form-control"
+										th:value="${product.discountPrice}" disabled>
+								</div>
 							</div>
-
-							<div class="mb-3">
-								<label>Enter Price</label> <input type="number" name="price" class="form-control"
-									th:value="${product.price}">
-							</div>
-							<div class="mb-3">
+							<div class="mb-3 col">
 								<label>Status</label>
 
 								<div class="form-check">
@@ -78,7 +89,8 @@
 							<div class="row">
 
 								<div class="mb-3 col">
-									<label>Enter Stock</label> <input type="text" name="stock" class="form-control" th:value="${product.stock}">
+									<label>Enter Stock</label> <input type="text" name="stock" class="form-control"
+										th:value="${product.stock}">
 								</div>
 
 								<div class="mb-3 col">
@@ -86,10 +98,10 @@
 								</div>
 								<div class="mb-3 ">
 									<img th:src="@{'/img/category_img/' + ${product.imageName}}" width="100px"
-							height="100px">
+										height="100px">
 								</div>
 							</div>
-							<button class="btn btn-primary col-md-12">Submit</button>
+							<button class="btn btn-primary col-md-12">Update</button>
 						</form>
 					</div>
 				</div>

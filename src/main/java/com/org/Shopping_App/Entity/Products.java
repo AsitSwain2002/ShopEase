@@ -22,4 +22,6 @@ public class Products {
 	private boolean status;
 	private int stock;
 	private String imageName;
+	private int discount;
+	private double discountPrice;
 }

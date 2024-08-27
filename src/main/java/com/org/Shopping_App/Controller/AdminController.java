@@ -106,7 +106,7 @@ public class AdminController {
 		return "redirect:/admin/catagory";
 	}
 
-	// Add Product Start
+	// Save Product Start
 	@GetMapping("/loadAddProduct")
 	public String viewaddProduct(Model m) {
 		List<CatagoryDto> allCatagory = catagoryService.fetchAllCatagory();
@@ -171,6 +171,10 @@ public class AdminController {
 	@PostMapping("/updateProduct")
 	public String updateProduct(@ModelAttribute ProductsDto productsDto, @RequestParam("prodId") int id,
 			@RequestParam("file") MultipartFile file, HttpSession session) {
+		if(ObjectUtils.isEmpty(productService.updateProduct(productsDto,id, file))) {
+			session.setAttribute("errorMsg", "Invalid Discount");
+			return "redirect:/admin/editProduct/"+id;
+		}
 		productService.updateProduct(productsDto,id, file);
 		session.setAttribute("successMsg", "Updated Successfully");
 		session.setAttribute("errorMsg", "Something Went Wrong");

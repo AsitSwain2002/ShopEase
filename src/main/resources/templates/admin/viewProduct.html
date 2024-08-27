@@ -28,6 +28,8 @@
 			<th>Product Catagory</th>
 			<th>Stock</th>
 			<th>Price</th>
+			<th>Discount</th>
+			<th>Discount Price</th>
 			<th>
 				Edit/Remove
 			</th>
@@ -41,6 +43,8 @@
 			<td>[[${c.catagory}]]</td>
 			<td>[[${c.stock}]]</td>
 			<td>[[${c.price}]]</td>
+			<td class="text-success">[[${c.discount}]]%</td>
+			<td>[[${c.discountPrice}]]</td>
 			<td>
 				<a th:href="@{'/admin/editProduct/'+${c.id}}"><button class="btn btn-primary ">Edit</button></a>
 				<a th:href="@{'/admin/removeProduct/'+${c.id}}"><button class="btn btn-danger">Remove</button></a>
