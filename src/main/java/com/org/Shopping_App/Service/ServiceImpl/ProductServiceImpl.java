@@ -1,5 +1,7 @@
 package com.org.Shopping_App.Service.ServiceImpl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,8 @@ public class ProductServiceImpl implements ProductService {
 		product.setStatus(productDto.isStatus());
 		product.setStock(productDto.getStock());
 		product.setImageName(productDto.getImageName());
+		product.setDiscount(0);
+		product.setDiscountPrice(productDto.getPrice());
 
 		productRepo.save(product);
 		return modelMapper.map(product, ProductsDto.class);
@@ -59,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
 	public ProductsDto findById(int id) {
 		Products product = productRepo.findById(id).orElseThrow(() -> new ResourceNotFound("product Not Found"));
 		return modelMapper.map(product, ProductsDto.class);
+
 	}
 
 	@Override
@@ -70,15 +75,29 @@ public class ProductServiceImpl implements ProductService {
 		} else {
 			imageName = product.getImageName();
 		}
-		product.setTitle(productDto.getTitle());
-		product.setDescription(productDto.getDescription());
-		product.setCatagory(productDto.getCatagory());
-		product.setPrice(productDto.getPrice());
-		product.setStatus(productDto.isStatus());
-		product.setStock(productDto.getStock());
-		product.setImageName(imageName);
-		productRepo.save(product);
-		return modelMapper.map(product, ProductsDto.class);
+		if (productDto.getDiscount() >= 0 && productDto.getDiscount() <= 100) {
+			product.setTitle(productDto.getTitle());
+			product.setDescription(productDto.getDescription());
+			product.setCatagory(productDto.getCatagory());
+
+			product.setStatus(productDto.isStatus());
+			product.setStock(productDto.getStock());
+			product.setImageName(imageName);
+
+			// discount
+			Double discountPrice = (productDto.getDiscount() * productDto.getPrice()) / 100;
+			Double originalPrice = productDto.getPrice() - discountPrice;
+			BigDecimal bd = new BigDecimal(originalPrice).setScale(2, RoundingMode.HALF_UP);
+			originalPrice = bd.doubleValue();
+			// discount End
+			product.setDiscount(productDto.getDiscount());
+			product.setDiscountPrice(originalPrice);
+			productRepo.save(product);
+			return modelMapper.map(product, ProductsDto.class);
+		} else {
+			System.out.println("Else Block Execute");
+			return null;
+		}
 	}
 
 }
