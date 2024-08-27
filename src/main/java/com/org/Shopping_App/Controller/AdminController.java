@@ -96,7 +96,7 @@ public class AdminController {
 			@RequestParam("file") MultipartFile file, HttpSession session) {
 		catagoryService.updateCatagory(id, catagoryDto, file);
 		session.setAttribute("successMsg", "Updated Successfully");
-		session.setAttribute("errorMsg", "USomething Went Wrong");
+		session.setAttribute("errorMsg", "Something Went Wrong");
 		return "redirect:/admin/updateCatagoryPage/" + catagoryDto.getId();
 	}
 
@@ -145,4 +145,36 @@ public class AdminController {
 		}
 		return "redirect:/admin/loadAddProduct";
 	}
+
+	// View Product
+	@GetMapping("/product")
+	public String viewProduct(Model m) {
+		m.addAttribute("allProducts", productService.fetchAllProduct());
+		return "/admin/viewProduct";
+	}
+
+	// Remove Product
+	@GetMapping("/removeProduct/{id}")
+	public String removeProduct(@PathVariable int id) {
+		productService.removeProduct(id);
+		return "redirect:/admin/product";
+	}
+
+	// edit Product
+	@GetMapping("/editProduct/{id}")
+	public String editProduct(@PathVariable int id, Model m) {
+		m.addAttribute("product", productService.findById(id));
+		m.addAttribute("catagory", catagoryService.fetchAllCatagory());
+		return "admin/editProduct";
+	}
+
+	@PostMapping("/updateProduct")
+	public String updateProduct(@ModelAttribute ProductsDto productsDto, @RequestParam("prodId") int id,
+			@RequestParam("file") MultipartFile file, HttpSession session) {
+		productService.updateProduct(productsDto,id, file);
+		session.setAttribute("successMsg", "Updated Successfully");
+		session.setAttribute("errorMsg", "Something Went Wrong");
+		return "redirect:/admin/product";
+	}
+
 }

@@ -43,10 +43,8 @@ public class CatagoryServiceImpl implements CatagoryService {
 		String imageName = "";
 		if (!file.isEmpty()) {
 			imageName = file.getOriginalFilename();
-			System.out.println("True imageName Name: " + file.getOriginalFilename());
 		} else {
 			imageName = catagory.getImageName();
-			System.out.println("False imageName Name: " + imageName);
 		}
 		catagory.setName(catagoryDto.getName());
 		catagory.setImageName(imageName);
