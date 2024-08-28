@@ -66,14 +66,16 @@
 		<!-- all latest Product store here -->
 		<div class="allProducts">
 			<div class="innerProductDiv" th:each="p:${products}">
-				<div class="image">
-					<img th:src="@{'img/category_img/'+${p.imageName}}" alt="">
-				</div>
-				<div class="productDetails">
-					<div class="name"><span>[[${p.title}]]</span></div>
-					<div class="price">Price: <span class="priceIn">[[${p.discountPrice}]]</span></div>
-					<div class="discount">Disccount: <span>[[${p.discount}]]% Off</span></div>
-				</div>
+				<a th:href="@{'/viewDetails/'+${p.id}}">
+					<div class="image">
+						<img th:src="@{'img/category_img/'+${p.imageName}}" alt="">
+					</div>
+					<div class="productDetails">
+						<div class="name"><span>[[${p.title}]]</span></div>
+						<div class="price">Price: <span class="priceIn">[[${p.discountPrice}]]</span></div>
+						<div class="discount">Disccount: <span>[[${p.discount}]]% Off</span></div>
+					</div>
+				</a>
 			</div>
 		</div>
 		<!-- Admin Login -->
