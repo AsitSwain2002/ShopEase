@@ -100,4 +100,10 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 
+	@Override
+	public List<ProductsDto> fetchAllByName(String name) {
+		List<Products> products = productRepo.findAllByCatagory(name);
+		return products.stream().map((e)->modelMapper.map(e, ProductsDto.class)).collect(Collectors.toList());
+	}
+
 }

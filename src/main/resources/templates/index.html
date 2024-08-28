@@ -48,30 +48,11 @@
 
 		<!-- Catagory Items -->
 		<div class="catagoryItems">
-			<div class="items">
-				<img src="img/category_img/appli.png" alt="">
-				<h5>Electronics</h5>
-			</div>
-
-			<div class="items">
-				<img src="img/category_img/beuty.png" alt="">
-				<h5>Beauty</h5>
-			</div>
-			<div class="items">
-				<img src="img/category_img/groccery.jpg" alt="">
-				<h5>Grocery</h5>
-			</div>
-			<div class="items">
-				<img src="img/category_img/laptop.jpg" alt="">
-				<h5>Laptop</h5>
-			</div>
-			<div class="items">
-				<img src="img/category_img/mobile.png" alt="">
-				<h5>Mobile</h5>
-			</div>
-			<div class="items">
-				<img src="img/category_img/pant.png" alt="">
-				<h5>Cloths</h5>
+			<div class="items" th:each="c:${catagories}">
+				<a th:href="@{'/productCatgory/'+${c.name}}">
+					<img th:src="@{'img/category_img/'+${c.imageName}}" alt="">
+					<h5>[[${c.name}]]</h5>
+				</a>
 			</div>
 		</div>
 		<!--		CatagorySection end-->
@@ -84,76 +65,14 @@
 
 		<!-- all latest Product store here -->
 		<div class="allProducts">
-			<div class="innerProductDiv">
+			<div class="innerProductDiv" th:each="p:${products}">
 				<div class="image">
-					<img src="img/category_img/mobile.png" alt="">
+					<img th:src="@{'img/category_img/'+${p.imageName}}" alt="">
 				</div>
 				<div class="productDetails">
-					<div class="name">name: <span>Iphone x</span></div>
-					<div class="price">Price: <span class="priceIn">10987</span></div>
-					<div class="discount">Disccount: <span>60% Off</span></div>
-				</div>
-			</div>
-
-			<div class="innerProductDiv">
-				<div class="image">
-					<img src="img/category_img/beuty.png" alt="">
-				</div>
-				<div class="productDetails">
-					<div class="name">name: <span>Iphone x</span></div>
-					<div class="price">Price: <span class="priceIn">123409</span></div>
-					<div class="discount">Disccount: <span>60% Off</span></div>
-				</div>
-			</div>
-
-			<div class="innerProductDiv">
-				<div class="image">
-					<img src="img/category_img/laptop.jpg" alt="">
-				</div>
-				<div class="productDetails">
-					<div class="name">name: <span>Iphone x</span></div>
-					<div class="price">Price: <span class="priceIn">12340987</span></div>
-					<div class="discount">Disccount: <span>60% Off</span></div>
-				</div>
-			</div>
-			<div class="innerProductDiv">
-				<div class="image">
-					<img src="img/category_img/mobile.png" alt="">
-				</div>
-				<div class="productDetails">
-					<div class="name">name: <span>Iphone x</span></div>
-					<div class="price">Price: <span class="priceIn">12340987</span></div>
-					<div class="discount">Disccount: <span>60% Off</span></div>
-				</div>
-			</div>
-			<div class="innerProductDiv">
-				<div class="image">
-					<img src="img/category_img/laptop.jpg" alt="">
-				</div>
-				<div class="productDetails">
-					<div class="name">name: <span>Iphone x</span></div>
-					<div class="price">Price: <span class="priceIn">12340987</span></div>
-					<div class="discount">Disccount: <span>60% Off</span></div>
-				</div>
-			</div>
-			<div class="innerProductDiv">
-				<div class="image">
-					<img src="img/category_img/pant.png" alt="">
-				</div>
-				<div class="productDetails">
-					<div class="name">name: <span>Iphone x</span></div>
-					<div class="price">Price: <span class="priceIn">12340987</span></div>
-					<div class="discount">Disccount: <span>60% Off</span></div>
-				</div>
-			</div>
-			<div class="innerProductDiv">
-				<div class="image">
-					<img src="img/category_img/pant.png" alt="">
-				</div>
-				<div class="productDetails">
-					<div class="name">name: <span>Iphone x</span></div>
-					<div class="price">Price: <span class="priceIn">12340987</span></div>
-					<div class="discount">Disccount: <span>60% Off</span></div>
+					<div class="name"><span>[[${p.title}]]</span></div>
+					<div class="price">Price: <span class="priceIn">[[${p.discountPrice}]]</span></div>
+					<div class="discount">Disccount: <span>[[${p.discount}]]% Off</span></div>
 				</div>
 			</div>
 		</div>

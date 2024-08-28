@@ -109,7 +109,10 @@ main {
 	align-items: center;
 	border-radius: 6px;
 }
-
+.innItem > a{
+	text-decoration: none;
+	color: black;
+}
 .items>.innItem:hover {
 	cursor: pointer;
 	background-color: #e3e3dd;
@@ -193,14 +196,23 @@ main {
 }
 
 .productDetails>.name {
-	font-size: 17px;
-	font-weight: 800;
-	height: 30%;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 10px;
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700; 
 }
 
 .discount {
 	color: green;
 	font-weight: 900;
+	margin-left: 12px;
 }
 
 .productDetails>.price {

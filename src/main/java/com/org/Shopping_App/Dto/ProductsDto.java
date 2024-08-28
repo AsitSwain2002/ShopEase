@@ -20,4 +20,3 @@ public class ProductsDto {
 	private int discount;
 	private double discountPrice;
 }
-

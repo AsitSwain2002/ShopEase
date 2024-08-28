@@ -33,14 +33,8 @@
 					<h5>Catagories</h5>
 				</div>
 				<div class="items">
-					<div class="innItem">All</div>
-					<div class="innItem">Electronics</div>
-					<div class="innItem">Laptop</div>
-					<div class="innItem">Mobile</div>
-					<div class="innItem">Cloth</div>
-					<div class="innItem">Fashion</div>
-					<div class="innItem">Book</div>
-					<div class="innItem">Macboook</div>
+					<div class="innItem"><a href="/product">All</div></a>
+					<div class="innItem" th:each="c:${session.catagories}"><a th:href="@{'/productCatgory/'+${c.name}}">[[${c.name}]] </a></div>
 				</div>
 			</div>
 			<div class="productsRight">
@@ -49,190 +43,56 @@
 				</div>
 				<!-- cart Start -->
 				<div class="productsRightItems">
-					<div class="innerProductDiv">
+					<div class="innerProductDiv" th:each="p:${session.products}">
 						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
+							<img th:src="@{'/img/category_img/'+${p.imageName}}" alt="">
 						</div>
 						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn"><a href="/viewDetails">View Details</a></button>
+							<div class="name">[[${p.title}]]</div>
+							<div class="price"><span>&#8377</span> <span
+									class="priceIn">[[${p.discountPrice}]].00</span>
+								<span class="discount">[[${p.discount}]]% Off</span>
+								<button class="productBtn"><a th:href="@{'/viewDetails/'+${p.id}}">View
+										Details</a></button>
 							</div>
 						</div>
 					</div>
 					<!-- cart End -->
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/beuty.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn"><a href="#">View Details</a></button>
-							</div>
-						</div>
+				</div>
+				<!-- Admin Login -->
+				<div class="adminLogin">
+					<div class="close-icon-login">
+						<i class="ri-close-large-line"></i>
 					</div>
-
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn"><a href="#">View Details</a></button>
-							</div>
-						</div>
+					<div class="custom-card-header">
+						<p class="fs-4">Login</p>
 					</div>
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/laptop.jpg" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn"><a href="#">View Details</a></button>
+					<div class="custom-card-body">
+						<form action="#" method="post">
+							<div class="mb-3">
+								<label class="form-label">Email</label>
+								<input required class="form-control" name="username" type="email">
 							</div>
-						</div>
+							<div class="mb-3">
+								<label class="form-label">Password</label>
+								<input required class="form-control" name="password" type="password">
+							</div>
+							<button type="submit" class="btn-ad">Login</button>
+						</form>
 					</div>
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn"><a href="#">View Details</a></button>
-							</div>
-						</div>
-					</div>
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn"><a href="#">View Details</a></button>
-							</div>
-						</div>
-					</div>
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn"><a href="#">View Details</a></button>
-							</div>
-						</div>
-					</div>
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn"><a href="#">View Details</a></button>
-							</div>
-						</div>
-					</div>
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn">View Details</button>
-							</div>
-						</div>
-					</div>
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn">View Details</button>
-							</div>
-						</div>
-					</div>
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn">View Details</button>
-							</div>
-						</div>
-					</div>
-					<div class="innerProductDiv">
-						<div class="image">
-							<img src="img/category_img/mobile.png" alt="">
-						</div>
-						<div class="productDetails">
-							<div class="name">Iphone x</div>
-							<div class="price"><span>&#8377</span> <span class="priceIn">12340987</span>
-								<span class="discount">60% Off</span>
-								<button class="productBtn">View Details</button>
-							</div>
-						</div>
+					<div class="custom-card-footer">
+						<a href="/forgot-password">Forgot Password</a><br>
+						Don't have an account? <a href="#">Create one</a>
 					</div>
 				</div>
-			</div>
-		</div>
-		</div>
-		<!-- Admin Login -->
-		<div class="adminLogin">
-			<div class="close-icon-login">
-				<i class="ri-close-large-line"></i>
-			</div>
-			<div class="custom-card-header">
-				<p class="fs-4">Login</p>
-			</div>
-			<div class="custom-card-body">
-				<form action="#" method="post">
-					<div class="mb-3">
-						<label class="form-label">Email</label>
-						<input required class="form-control" name="username" type="email">
-					</div>
-					<div class="mb-3">
-						<label class="form-label">Password</label>
-						<input required class="form-control" name="password" type="password">
-					</div>
-					<button type="submit" class="btn-ad">Login</button>
-				</form>
-			</div>
-			<div class="custom-card-footer">
-				<a href="/forgot-password">Forgot Password</a><br>
-				Don't have an account? <a href="#">Create one</a>
-			</div>
-		</div>
 
 
-		<-- Footer Start-->
-			<div class="container-fluid p-1 bg-primary text-center text-white">
-				<p>ecom.com</p>
-			</div>
-			<script src="js/product.js"></script>
-			<!-- main Box Start -->
+				<!--		Footer Start-->
+				<div class="container-fluid p-1 bg-primary text-center text-white">
+					<p>ecom.com</p>
+				</div>
+				<script src="js/product.js"></script>
+				<!-- main Box Start -->
 	</main>
 </body>
 
