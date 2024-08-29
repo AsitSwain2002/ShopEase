@@ -213,7 +213,7 @@ main {
 }
 
 .productPrice>.originalPrice {
-	font-size: 12.5px;
+	font-size: 13px;
 	font-weight: 600;
 	color: rgb(66, 65, 65);
 	padding-left: 5px;

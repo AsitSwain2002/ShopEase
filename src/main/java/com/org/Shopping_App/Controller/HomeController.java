@@ -1,4 +1,4 @@
-package com.org.Shopping_App.Controller;
+ package com.org.Shopping_App.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String indexPage(Model m) {
-		m.addAttribute("catagories", catagoryServ.fetchAllCatagory());
+		m.addAttribute("catagories", catagoryServ.activCatagory());
 		m.addAttribute("products", productService.fetchAllProduct());
 		return "index";
 	}
@@ -37,9 +37,9 @@ public class HomeController {
 	}
 
 	@GetMapping("/product")
-	public String productPage(Model m , HttpSession session) {
-      session.setAttribute("products", productService.fetchAllProduct());
-      session.setAttribute("catagories", catagoryServ.fetchAllCatagory());
+	public String productPage(Model m, HttpSession session) {
+		session.setAttribute("products", productService.fetchAllProduct());
+		session.setAttribute("catagories", catagoryServ.activCatagory());
 		return "products";
 	}
 }

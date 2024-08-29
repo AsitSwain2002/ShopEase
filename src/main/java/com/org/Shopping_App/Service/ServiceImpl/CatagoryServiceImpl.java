@@ -78,4 +78,11 @@ public class CatagoryServiceImpl implements CatagoryService {
 		return modelMapper.map(catagory, CatagoryDto.class);
 	}
 
+	@Override
+	public List<CatagoryDto> activCatagory() {
+
+		List<Catagory> catogory = catagoryRepo.findByStatusTrue();
+		return catogory.stream().map((e) -> modelMapper.map(e, CatagoryDto.class)).collect(Collectors.toList());
+	}
+
 }

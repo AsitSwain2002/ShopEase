@@ -19,5 +19,7 @@ public interface CatagoryService {
 	public boolean isCatagoryExist(String name);
 	
 	public CatagoryDto findById(int id);
+	
+	public List<CatagoryDto> activCatagory();
 
 }
