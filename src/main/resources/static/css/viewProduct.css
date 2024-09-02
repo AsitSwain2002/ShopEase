@@ -229,7 +229,7 @@ main {
 
 .productLogo {
 	height: 20%;
-	width: 85%;
+	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -237,7 +237,7 @@ main {
 
 .productLogo>.logo {
 	height: 90%;
-	width: 28%;
+	width: 30%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
