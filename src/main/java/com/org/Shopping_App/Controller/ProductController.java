@@ -31,8 +31,11 @@ public class ProductController {
 	}
 	
 	@GetMapping("/productCatgory/{name}")
-	public String productCatagory(@PathVariable String name , HttpSession session) {
+	public String productCatagory(@PathVariable String name , HttpSession session , Model m) {
+		m.addAttribute("products", productService.fetchAllByName(name));
 		session.setAttribute("products", productService.fetchAllByName(name));
+//		session.setAttribute("catgoryName", name);
+		m.addAttribute("catgoryName", name);
 		return "/products";
 	}
 }

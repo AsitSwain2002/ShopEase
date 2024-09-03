@@ -104,14 +104,17 @@ main {
 	border: 0.001em solid #ccccd3;
 	height: 10%;
 	width: 100%;
-	padding-left: 9px;
-	display: flex;
-	align-items: center;
-	border-radius: 6px;
+
 }
 .innItem > a{
 	text-decoration: none;
 	color: black;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	border-radius: 6px;
+   padding-left: 9px;
 }
 .items>.innItem:hover {
 	cursor: pointer;
@@ -332,4 +335,9 @@ main {
 
 .adminLogin .card-footer a:hover {
 	text-decoration: underline;
+}
+
+.active{
+	background-color: #649ef4;
+	color: white;
 }

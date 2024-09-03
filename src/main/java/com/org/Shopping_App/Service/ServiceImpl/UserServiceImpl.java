@@ -30,4 +30,8 @@ public class UserServiceImpl implements UserService {
 		return modelMapper.map(user, UserDto.class);
 	}
 
+	public UserDto findByEmail(String email) {
+		return modelMapper.map(userRepo.findByEmail(email), UserDto.class);
+	}
+
 }

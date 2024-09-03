@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -54,6 +55,8 @@ public class HomeController {
 
 	@GetMapping("/product")
 	public String productPage(Model m, HttpSession session) {
+		m.addAttribute("products", productService.fetchAllProduct());
+		m.addAttribute("catagories", catagoryServ.activCatagory());
 		session.setAttribute("products", productService.fetchAllProduct());
 		session.setAttribute("catagories", catagoryServ.activCatagory());
 		return "products";
@@ -80,5 +83,15 @@ public class HomeController {
 			session.setAttribute("errorMsg", "Something Went  Wrong");
 		}
 		return "register";
+	}
+
+	@ModelAttribute
+	public void getUSerDetails(Principal p, Model m) {
+
+		if (p != null) {
+			String email = p.getName();
+			m.addAttribute("UserDetails", userService.findByEmail(email));
+		}
+		m.addAttribute("catagories", catagoryServ.fetchAllCatagory());
 	}
 }

@@ -33,8 +33,13 @@
 					<h5>Catagories</h5>
 				</div>
 				<div class="items">
-					<div class="innItem"><a href="/product">All</div></a>
-					<div class="innItem" th:each="c:${session.catagories}"><a th:href="@{'/productCatgory/'+${c.name}}">[[${c.name}]] </a></div>
+					<div class="innItem"><a href="/product"
+					th:classappend="${catgoryName == null} ? 'active' : ''">All</div></a>
+					<div class="innItem" th:each="c:${session.catagories}">
+						<a th:href="@{'/productCatgory/'+${c.name}}"
+							th:classappend="${c.name == catgoryName} ? 'active' : ''">
+							[[${c.name}]] </a>
+					</div>
 				</div>
 			</div>
 			<div class="productsRight">
@@ -60,31 +65,31 @@
 					<!-- cart End -->
 				</div>
 				<!-- Admin Login -->
-				<div class="adminLogin">
-					<div class="close-icon-login">
-						<i class="ri-close-large-line"></i>
-					</div>
-					<div class="custom-card-header">
-						<p class="fs-4">Login</p>
-					</div>
-					<div class="custom-card-body">
-						<form action="#" method="post">
-							<div class="mb-3">
-								<label class="form-label">Email</label>
-								<input required class="form-control" name="username" type="email">
-							</div>
-							<div class="mb-3">
-								<label class="form-label">Password</label>
-								<input required class="form-control" name="password" type="password">
-							</div>
-							<button type="submit" class="btn-ad">Login</button>
-						</form>
-					</div>
-					<div class="custom-card-footer">
-						<a href="/forgot-password">Forgot Password</a><br>
-						Don't have an account? <a href="#">Create one</a>
-					</div>
-				</div>
+				<!--				<div class="adminLogin">-->
+				<!--					<div class="close-icon-login">-->
+				<!--						<i class="ri-close-large-line"></i>-->
+				<!--					</div>-->
+				<!--					<div class="custom-card-header">-->
+				<!--						<p class="fs-4">Login</p>-->
+				<!--					</div>-->
+				<!--					<div class="custom-card-body">-->
+				<!--						<form action="#" method="post">-->
+				<!--							<div class="mb-3">-->
+				<!--								<label class="form-label">Email</label>-->
+				<!--								<input required class="form-control" name="username" type="email">-->
+				<!--							</div>-->
+				<!--							<div class="mb-3">-->
+				<!--								<label class="form-label">Password</label>-->
+				<!--								<input required class="form-control" name="password" type="password">-->
+				<!--							</div>-->
+				<!--							<button type="submit" class="btn-ad">Login</button>-->
+				<!--						</form>-->
+				<!--					</div>-->
+				<!--					<div class="custom-card-footer">-->
+				<!--						<a href="/forgot-password">Forgot Password</a><br>-->
+				<!--						Don't have an account? <a href="#">Create one</a>-->
+				<!--					</div>-->
+				<!--				</div>-->
 
 
 				<!--		Footer Start-->
