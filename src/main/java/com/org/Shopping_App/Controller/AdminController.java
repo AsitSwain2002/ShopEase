@@ -23,10 +23,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.org.Shopping_App.Dto.CatagoryDto;
 import com.org.Shopping_App.Dto.ProductsDto;
+import com.org.Shopping_App.Dto.UserDto;
+import com.org.Shopping_App.Repo.UserRepo;
 import com.org.Shopping_App.Service.CatagoryService;
 import com.org.Shopping_App.Service.ProductService;
+import com.org.Shopping_App.Service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 
 @Controller
 @RequestMapping("/admin")
@@ -37,6 +41,9 @@ public class AdminController {
 
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/")
 	public String viewIndex() {
@@ -171,14 +178,34 @@ public class AdminController {
 	@PostMapping("/updateProduct")
 	public String updateProduct(@ModelAttribute ProductsDto productsDto, @RequestParam("prodId") int id,
 			@RequestParam("file") MultipartFile file, HttpSession session) {
-		if(ObjectUtils.isEmpty(productService.updateProduct(productsDto,id, file))) {
+		if (ObjectUtils.isEmpty(productService.updateProduct(productsDto, id, file))) {
 			session.setAttribute("errorMsg", "Invalid Discount");
-			return "redirect:/admin/editProduct/"+id;
+			return "redirect:/admin/editProduct/" + id;
 		}
-		productService.updateProduct(productsDto,id, file);
+		productService.updateProduct(productsDto, id, file);
 		session.setAttribute("successMsg", "Updated Successfully");
 		session.setAttribute("errorMsg", "Something Went Wrong");
 		return "redirect:/admin/product";
 	}
 
+	// Fetch all User
+	@GetMapping("/users")
+	public String fetchAllUser(Model m) {
+		m.addAttribute("allUser", userService.fetchAllUser("USER"));
+		return "admin/showAllUser";
+	}
+
+	// Set User Status
+	@GetMapping("/updateStatus")
+	public String updartStatus(@RequestParam Boolean status, @RequestParam int id , HttpSession session) {
+
+		UserDto updateStatus = userService.updateStatus(status,id);
+		if(ObjectUtils.isEmpty(updateStatus)) {
+			session.setAttribute("errorMsg", "Something Went Wrong On Server");
+		}
+		else {
+			session.setAttribute("succMsg", "Update Successfully");
+		}
+		return "redirect:/admin/users";
+	}
 }

@@ -22,37 +22,44 @@
 		<div class="mainContainer">
 			<div class="subContainer1">
 				<div class="innerCon">
-					<h4>Login</h4>
-					<p class="subHeead">
-						Doesn't have an account yet? <a href="/register">Sign Up</a>
-					</p>
-					<form action="/login" method="post">
-						<label class="labelS1">Email Address</label>
+					<div th:if="${param.error}" class="error" id="msgStore">
+						<th:block th:if="${session.SPRING_SECURITY_LAST_EXCEPTION!=null}">
+							[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
+						</th:block>
+					</div>
+					<div th:if="${param.logout}" class="success" id="msgStore">
+						Logout Sucessfully</div>
+				<h4>Login</h4>
+				<p class="subHeead">
+					Doesn't have an account yet? <a href="/register">Sign Up</a>
+				</p>
+				<form action="/login" method="post">
+					<label class="labelS1">Email Address</label>
 
-						<div class="email" th:text="${errMsg}"></div>
-						<input type="text" name="username" class="spaceAr" placeholder="You@example.com">
+					<div class="email" th:text="${errMsg}"></div>
+					<input type="text" name="username" class="spaceAr" placeholder="You@example.com">
 
-						<div class="pasAndforge">
-							<label for="Password" class="labelS">Password</label> <a href="#">Forget
-								Password?</a>
-						</div>
+					<div class="pasAndforge">
+						<label for="Password" class="labelS">Password</label> <a href="#">Forget
+							Password?</a>
+					</div>
 
-						<div class="email" th:text="${PasWrong}"></div>
+					<div class="email" th:text="${PasWrong}"></div>
 
-						<input type="password" name="password" class="spaceAr" placeholder="Enter 6 character or more">
-						<input type="submit" value="Login" class="Submit">
-					</form>
-				</div>
-			</div>
-			<div class="subContainer_2">
-				<img alt="" th:src="@{/img/_039fdc8b-6a06-494a-8150-7a56f12390d7.jpeg}" />
+					<input type="password" name="password" class="spaceAr" placeholder="Enter 6 character or more">
+					<input type="submit" value="Login" class="Submit">
+				</form>
 			</div>
 		</div>
+		<div class="subContainer_2">
+			<img alt="" th:src="@{/img/_039fdc8b-6a06-494a-8150-7a56f12390d7.jpeg}" />
+		</div>
+		</div>
 	</main>
-		<!-- Footer Start-->
-			<div class="container-fluid p-1 bg-primary text-center text-white">
-				<p>ecom.com</p>
-			</div>
+	<!-- Footer Start-->
+	<div class="container-fluid p-1 bg-primary text-center text-white">
+		<p>ecom.com</p>
+	</div>
 </body>
 
 </html>

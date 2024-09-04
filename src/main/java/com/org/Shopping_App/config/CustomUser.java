@@ -20,7 +20,7 @@ public class CustomUser implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+user.getRole());
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole());
 		return Collections.singleton(authority);
 	}
 
@@ -47,6 +47,6 @@ public class CustomUser implements UserDetails {
 	}
 
 	public boolean isEnabled() {
-		return true;
+		return user.isActive();
 	}
 }
