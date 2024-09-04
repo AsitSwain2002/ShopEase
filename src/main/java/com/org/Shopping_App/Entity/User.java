@@ -1,4 +1,5 @@
 package com.org.Shopping_App.Entity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +23,6 @@ public class User {
 	private String password;
 	private String image;
 	private String role;
-	
-}
+	private boolean isActive;
 
+}
