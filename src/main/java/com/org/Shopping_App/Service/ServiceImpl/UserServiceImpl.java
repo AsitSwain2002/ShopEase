@@ -1,13 +1,11 @@
 package com.org.Shopping_App.Service.ServiceImpl;
-
-import java.util.Collection;
-import java.util.Collections;
+ 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +14,7 @@ import com.org.Shopping_App.Entity.User;
 import com.org.Shopping_App.Repo.UserRepo;
 import com.org.Shopping_App.Service.UserService;
 import com.org.Shopping_App.exceptionHandler.ResourceNotFound;
+import com.org.Shopping_App.util.AppConstant;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,6 +32,7 @@ public class UserServiceImpl implements UserService {
 		userDto.setPassword(encoder.encode(userDto.getPassword()));
 		userDto.setActive(true);
 		User user = modelMapper.map(userDto, User.class);
+		user.setFailedAttemp(0);
 		userRepo.save(user);
 		return modelMapper.map(user, UserDto.class);
 	}
@@ -53,6 +53,45 @@ public class UserServiceImpl implements UserService {
 		user.setActive(status);
 		userRepo.save(user);
 		return modelMapper.map(user, UserDto.class);
+	}
+
+	@Override
+	public void increaseFailedAttemp(UserDto userDto) {
+		User user = modelMapper.map(userDto, User.class);
+		int failedAttemp = user.getFailedAttemp() + 1;
+		user.setFailedAttemp(failedAttemp);
+		userRepo.save(user);
+	}
+
+	@Override
+	public void userAccountLock(UserDto userDto) {
+		User user = modelMapper.map(userDto, User.class);
+		user.setAccountLocked(false);
+		user.setLockTime(new Date());
+		userRepo.save(user);
+
+	}
+
+	@Override
+	public boolean unlockAccountTimeExpaired(UserDto userDto) {
+		User user = modelMapper.map(userDto, User.class);
+		Long lockTime = user.getLockTime().getTime();
+		Long unlockTime = lockTime + AppConstant.Unlock_Duration_Time;
+		long currentTime = System.currentTimeMillis();
+		if (unlockTime < currentTime) {
+			user.setAccountLocked(true);
+			user.setFailedAttemp(0);
+			user.setLockTime(null);
+			userRepo.save(user);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void resetAttempt(int id) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
