@@ -1,5 +1,7 @@
 package com.org.Shopping_App.Dto;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -16,4 +18,8 @@ public class UserDto {
 	private String image;
 	private String role;
 	private boolean isActive;
+	private boolean accountLocked;
+	private int failedAttemp;
+	private Date lockTime;
+
 }

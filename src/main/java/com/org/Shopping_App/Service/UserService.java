@@ -9,8 +9,16 @@ public interface UserService {
 	UserDto saveUser(UserDto userDto);
 
 	public UserDto findByEmail(String email);
-	
+
 	List<UserDto> fetchAllUser(String user);
 
 	UserDto updateStatus(Boolean status, int id);
+
+	void increaseFailedAttemp(UserDto userDto);
+
+	void userAccountLock(UserDto userDto);
+
+	boolean unlockAccountTimeExpaired(UserDto userDto);
+
+	void resetAttempt(int id);
 }

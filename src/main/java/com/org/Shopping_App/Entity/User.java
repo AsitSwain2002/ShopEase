@@ -1,5 +1,7 @@
 package com.org.Shopping_App.Entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,5 +26,8 @@ public class User {
 	private String image;
 	private String role;
 	private boolean isActive;
+	private boolean accountLocked;
+	private int failedAttemp;
+	private Date lockTime;
 
 }
