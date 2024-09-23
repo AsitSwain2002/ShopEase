@@ -1,5 +1,5 @@
 package com.org.Shopping_App.Service.ServiceImpl;
- 
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
 	public UserDto saveUser(UserDto userDto) {
 		userDto.setPassword(encoder.encode(userDto.getPassword()));
 		userDto.setActive(true);
+		userDto.setRole("USER");
 		User user = modelMapper.map(userDto, User.class);
 		user.setFailedAttemp(0);
 		userRepo.save(user);
@@ -38,7 +39,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public UserDto findByEmail(String email) {
-		return modelMapper.map(userRepo.findByEmail(email), UserDto.class);
+		User userEmail = userRepo.findByEmail(email);
+		if (userEmail != null) {
+			return modelMapper.map(userEmail, UserDto.class);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -92,6 +98,29 @@ public class UserServiceImpl implements UserService {
 	public void resetAttempt(int id) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void updateToken(String email, String token) {
+		User user = userRepo.findByEmail(email);
+		user.setToken(token);
+		userRepo.save(user);
+	}
+
+	@Override
+	public UserDto findByToken(String token) {
+		User user = userRepo.findByToken(token);
+		return modelMapper.map(user, UserDto.class);
+	}
+
+	@Override
+	public UserDto updatePassword( int id , String firstPas) {
+		User user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFound("User Not Found"));
+		String encode = encoder.encode(firstPas);
+		user.setPassword(encode);
+		user.setToken(null);
+		userRepo.save(user);
+		return modelMapper.map(user, UserDto.class);
 	}
 
 }

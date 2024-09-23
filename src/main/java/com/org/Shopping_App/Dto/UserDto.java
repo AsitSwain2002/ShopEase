@@ -21,5 +21,6 @@ public class UserDto {
 	private boolean accountLocked;
 	private int failedAttemp;
 	private Date lockTime;
+	private String token;
 
 }
