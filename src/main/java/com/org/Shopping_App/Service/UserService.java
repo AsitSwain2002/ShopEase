@@ -21,4 +21,10 @@ public interface UserService {
 	boolean unlockAccountTimeExpaired(UserDto userDto);
 
 	void resetAttempt(int id);
+
+	void updateToken(String email, String token);
+
+	UserDto findByToken(String token);
+
+	UserDto updatePassword( int id, String firstPas);
 }

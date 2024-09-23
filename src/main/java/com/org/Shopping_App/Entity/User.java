@@ -29,5 +29,6 @@ public class User {
 	private boolean accountLocked;
 	private int failedAttemp;
 	private Date lockTime;
+	private String token;
 
 }
