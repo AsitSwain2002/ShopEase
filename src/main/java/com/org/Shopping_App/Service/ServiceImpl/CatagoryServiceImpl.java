@@ -29,7 +29,7 @@ public class CatagoryServiceImpl implements CatagoryService {
 		Catagory catagory = modelMapper.map(catagoryDto, Catagory.class);
 		catagory.setName(catagoryDto.getName());
 		catagory.setImageName(catagoryDto.getImageName());
-		catagory.setStatus(catagoryDto.getStatus());
+		catagory.setStatus(catagoryDto.isStatus());
 		catagoryRepo.save(catagory);
 
 		return modelMapper.map(catagory, CatagoryDto.class);
@@ -48,7 +48,7 @@ public class CatagoryServiceImpl implements CatagoryService {
 		}
 		catagory.setName(catagoryDto.getName());
 		catagory.setImageName(imageName);
-		catagory.setStatus(catagoryDto.getStatus());
+		catagory.setStatus(catagoryDto.isStatus());
 		catagoryRepo.save(catagory);
 		return modelMapper.map(catagory, CatagoryDto.class);
 	}

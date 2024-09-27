@@ -21,13 +21,13 @@
 //});
 
 //! view Admil Login Page
-const admin = document.querySelector(".adminSelect");
-const closeLogin = document.querySelector(".ri-close-large-line");
-const loginPage = document.querySelector(".adminLogin");
-
-admin.addEventListener("click",()=>{
-    loginPage.style.display = "block";
-})
-closeLogin.addEventListener("click",()=>{
-    loginPage.style.display = "none";
-}) 
+//const admin = document.querySelector(".adminSelect");
+//const closeLogin = document.querySelector(".ri-close-large-line");
+//const loginPage = document.querySelector(".adminLogin");
+//
+//admin.addEventListener("click",()=>{
+//    loginPage.style.display = "block";
+//})
+//closeLogin.addEventListener("click",()=>{
+//    loginPage.style.display = "none";
+//}) 

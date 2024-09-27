@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto updateStatus(Boolean status, int id) {
+	public UserDto updateStatus(boolean status, int id) {
 		User user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFound("User Not Found"));
 		user.setActive(status);
 		userRepo.save(user);
@@ -114,12 +114,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto updatePassword( int id , String firstPas) {
+	public UserDto updatePassword(int id, String firstPas) {
 		User user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFound("User Not Found"));
 		String encode = encoder.encode(firstPas);
 		user.setPassword(encode);
 		user.setToken(null);
 		userRepo.save(user);
+		return modelMapper.map(user, UserDto.class);
+	}
+
+	@Override
+	public UserDto findById(int id) {
+		User user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFound("User Not Found"));
 		return modelMapper.map(user, UserDto.class);
 	}
 

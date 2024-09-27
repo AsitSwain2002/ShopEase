@@ -93,10 +93,11 @@ public class HomeController {
 	}
 
 	@ModelAttribute
-	public void getUSerDetails(Principal p, Model m) {
+	public void getUSerDetails(Principal p, Model m , HttpSession session) {
 
 		if (p != null) {
 			String email = p.getName();
+			session.setAttribute("UserDetails", userService.findByEmail(email));
 			m.addAttribute("UserDetails", userService.findByEmail(email));
 		}
 		m.addAttribute("catagories", catagoryServ.fetchAllCatagory());

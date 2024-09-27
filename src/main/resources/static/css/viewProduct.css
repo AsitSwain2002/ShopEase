@@ -262,6 +262,6 @@ main {
 }
 
 .productBtn button:disabled {
-	background-color: #cccccc;
+	background-color: rgb(255, 255, 128);
 	cursor: not-allowed;
 }
