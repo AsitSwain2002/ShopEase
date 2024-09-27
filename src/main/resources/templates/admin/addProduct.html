@@ -23,14 +23,15 @@
 					<div class="card-header text-center ">
 						<p class="fs-4">Add Product</p>
 						<th:block th:if="${session.successMsg}">
-							<p class="text-success fw-bold">[[${session.successMsg}]]</p>
+							<p class="text-success fw-bold alert alert-success">[[${session.successMsg}]]</p>
 							<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
 						</th:block>
 
 						<th:block th:if="${session.errorMsg}">
-							<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+							<p class="text-success fw-bold alert alert-danger">[[${session.errorMsg}]]</p>
 							<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
 						</th:block>
+
 
 					</div>
 					<div class="card-body">
@@ -47,7 +48,7 @@
 							<div class="mb-3">
 								<label>Category</label> <select class="form-control" name="catagory">
 									<option>--select--</option>
-									<option th:each = "c:${allCatagory}">[[${c.name}]]</option>
+									<option th:each="c:${allCatagory}">[[${c.name}]]</option>
 								</select>
 							</div>
 

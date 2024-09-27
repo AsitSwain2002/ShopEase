@@ -1,7 +1,6 @@
 package com.org.Shopping_App.Service;
 
 import java.util.List;
-
 import com.org.Shopping_App.Dto.UserDto;
 
 public interface UserService {
@@ -12,7 +11,7 @@ public interface UserService {
 
 	List<UserDto> fetchAllUser(String user);
 
-	UserDto updateStatus(Boolean status, int id);
+	UserDto updateStatus(boolean status, int id);
 
 	void increaseFailedAttemp(UserDto userDto);
 
@@ -26,5 +25,7 @@ public interface UserService {
 
 	UserDto findByToken(String token);
 
-	UserDto updatePassword( int id, String firstPas);
+	UserDto updatePassword(int id, String firstPas);
+
+	UserDto findById(int id);
 }

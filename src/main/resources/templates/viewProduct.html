@@ -22,20 +22,53 @@
 	<main>
 		<div class="MainBox">
 			<div class="heading">Product Details</div>
+			<div>
+				<th:block th:if="${session.succMsg}">
+					<p class="text-success  alert alert-success text-center">[[${session.succMsg}]]</p>
+					<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+
+				<th:block th:if="${session.errorMsg}">
+					<p class="text-success  alert alert-danger text-center">[[${session.errorMsg}]]</p>
+					<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+			</div>
 			<div class="innCon">
 				<div class="left">
 					<div class="image">
 						<img th:src="@{'/img/category_img/' + ${productDetails.imageName}}" alt="image">
 					</div>
 					<div class="productBtn">
-						<button th:disabled="${!productDetails.status}">
-							<a href="#" th:classappend="${!productDetails.status} ? 'disabled-link' : ''">Buy Now</a>
-						</button>
-						<button th:disabled="${!productDetails.status}">
-							<a href="#" th:classappend="${!productDetails.status} ? 'disabled-link' : ''">Add To
-								Cart</a>
-						</button>
+						<th:block th:if="${productDetails.stock > 0}">
+							<th:block th:if="${session.UserDetails == null}">
+								<button>
+									<a href="/signIn">Buy Now</a>
+								</button>
+								<button>
+									<a href="/signIn">Add To Cart</a>
+								</button>
+							</th:block>
+							<th:block th:unless="${session.UserDetails == null}">
+								<button>
+									<a href="#">Buy Now</a>
+								</button>
+								<button>
+									<a
+										th:href="@{'/user/addCart?pId='+${productDetails.id}+'&uId='+${session.UserDetails.id}}">Add
+										To Cart</a>
+								</button>
+							</th:block>
+						</th:block>
+						<th:block th:unless="${productDetails.stock > 0}">
+							<button disabled class="cartBtn">
+								Out Of Stock
+							</button>
+							<button disabled class="cartBtn">
+								Add To Cart
+							</button>
+						</th:block>
 					</div>
+
 
 				</div>
 				<div class="right">

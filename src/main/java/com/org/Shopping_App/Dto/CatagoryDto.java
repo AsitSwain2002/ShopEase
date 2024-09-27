@@ -7,6 +7,6 @@ public class CatagoryDto {
 
 	private int id;
 	private String name;
-	private Boolean status;
+	private boolean status;
 	private String imageName;
 }

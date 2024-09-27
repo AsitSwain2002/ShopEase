@@ -10,7 +10,7 @@ import com.org.Shopping_App.Entity.Catagory;
 @Repository
 public interface CatagoryRepo extends JpaRepository<Catagory, Integer> {
 
-	 Boolean existsByName(String name);
+	 boolean existsByName(String name);
 	 
 	 List<Catagory> findByStatusTrue();
 }

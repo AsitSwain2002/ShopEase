@@ -20,18 +20,18 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping("/viewDetails/{id}")
-	public String viewDetails(@PathVariable int id, Model m , HttpSession sesssion) {
+	public String viewDetails(@PathVariable int id, Model m, HttpSession session) {
 		ProductsDto product = productService.findById(id);
-		if(!ObjectUtils.isEmpty(product)) {
-		m.addAttribute("productDetails",product);
-		}else {
-			sesssion.setAttribute("errorMsg", "Something WentWrong");
+		if (!ObjectUtils.isEmpty(product)) {
+			m.addAttribute("productDetails", product);
+		} else {
+			session.setAttribute("errorMsg", "Something WentWrong");
 		}
 		return "viewProduct";
 	}
-	
+
 	@GetMapping("/productCatgory/{name}")
-	public String productCatagory(@PathVariable String name , HttpSession session , Model m) {
+	public String productCatagory(@PathVariable String name, HttpSession session, Model m) {
 		m.addAttribute("products", productService.fetchAllByName(name));
 		session.setAttribute("products", productService.fetchAllByName(name));
 //		session.setAttribute("catgoryName", name);
