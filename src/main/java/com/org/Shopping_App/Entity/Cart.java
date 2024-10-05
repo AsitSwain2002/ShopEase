@@ -1,6 +1,7 @@
 package com.org.Shopping_App.Entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +22,7 @@ public class Cart {
 	private double totalPrice;
 	@ManyToOne
 	private User user;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn
 	private Products products;
 }

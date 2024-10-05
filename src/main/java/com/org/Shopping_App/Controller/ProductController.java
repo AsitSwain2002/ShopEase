@@ -24,9 +24,7 @@ public class ProductController {
 		ProductsDto product = productService.findById(id);
 		if (!ObjectUtils.isEmpty(product)) {
 			m.addAttribute("productDetails", product);
-		} else {
-			session.setAttribute("errorMsg", "Something WentWrong");
-		}
+		} 
 		return "viewProduct";
 	}
 

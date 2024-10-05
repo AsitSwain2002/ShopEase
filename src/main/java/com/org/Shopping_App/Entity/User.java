@@ -1,11 +1,13 @@
 package com.org.Shopping_App.Entity;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Entity
@@ -30,5 +32,7 @@ public class User {
 	private int failedAttemp;
 	private Date lockTime;
 	private String token;
+	@OneToMany(mappedBy = "user")
+	private List<Cart> carts;
 
 }
