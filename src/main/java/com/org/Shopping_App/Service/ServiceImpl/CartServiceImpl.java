@@ -38,6 +38,8 @@ public class CartServiceImpl implements CartService {
 	private UserRepo userRepo;
 
 	@Autowired
+	private CartService cartService;
+	@Autowired
 	private ModelMapper modelMapper;
 
 	@Override
@@ -85,11 +87,11 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public CartDto incrementProd(int id) {
 		Cart cart = cartRepo.findById(id).orElseThrow(() -> new ResourceNotFound("Cart Not Found"));
-		if(cart.getProducts().getStock() > 0) {
-		cart.setQuantity(cart.getQuantity() + 1);
-		cart.getProducts().setStock(cart.getProducts().getStock() - 1);
-		cartRepo.save(cart);
-		}else {
+		if (cart.getProducts().getStock() > 0) {
+			cart.setQuantity(cart.getQuantity() + 1);
+			cart.getProducts().setStock(cart.getProducts().getStock() - 1);
+			cartRepo.save(cart);
+		} else {
 			cart.setQuantity(cart.getQuantity());
 		}
 		return modelMapper.map(cart, CartDto.class);
@@ -107,6 +109,12 @@ public class CartServiceImpl implements CartService {
 			cartRepo.save(cart);
 		}
 		return modelMapper.map(cart, CartDto.class);
+	}
+
+	@Override
+	public void removeAllCartItem(int userId) {
+		List<Cart> carts = cartRepo.findByUserId(userId);
+		cartRepo.deleteAll(carts);
 	}
 
 }

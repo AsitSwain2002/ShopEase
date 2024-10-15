@@ -11,12 +11,20 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.org.Shopping_App.Dto.CartDto;
+import com.org.Shopping_App.Dto.ProductOrderDto;
+import com.org.Shopping_App.Dto.UserAddressDto;
+import com.org.Shopping_App.Dto.UserDto;
 import com.org.Shopping_App.Entity.Cart;
+import com.org.Shopping_App.Entity.ProductOrder;
+import com.org.Shopping_App.Repo.UserRepo;
 import com.org.Shopping_App.Service.CartService;
+import com.org.Shopping_App.Service.ProductOrderService;
+import com.org.Shopping_App.Service.ProductService;
 import com.org.Shopping_App.Service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +35,10 @@ public class UserController {
 
 	@Autowired
 	private CartService cartService;
+	@Autowired
+	private ProductOrderService productOrderService;
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/")
 	public String home() {
@@ -34,24 +46,35 @@ public class UserController {
 	}
 
 	@GetMapping("/viewCart/{id}")
-	public String viewCart(@PathVariable int id, Model m) {
+	public String viewCart(@PathVariable int id, Model m, HttpSession session) {
 		List<CartDto> fetchAllCart = cartService.fetchAllCart(id);
 		m.addAttribute("Carts", fetchAllCart);
 		m.addAttribute("cartLength", fetchAllCart.size());
+		session.setAttribute("cartLength", fetchAllCart.size());
 		double totalPrice = 0.0;
 		double totalDiscountPrice = 0;
 		double totalAmount = 0.0;
 		for (CartDto cart : fetchAllCart) {
+//			System.out.println();
+//			System.out.println();
+//			System.out.println(cart.getProducts());
+//			System.out.println();
+//			System.out.println();
+//			System.out.println();
 			totalPrice += cart.getProducts().getPrice() * cart.getQuantity();
 			if (cart.getProducts().getDiscount() > 0) {
 				totalDiscountPrice += (cart.getProducts().getPrice() - cart.getProducts().getDiscountPrice())
 						* cart.getQuantity();
 			}
-			totalAmount += totalPrice - totalDiscountPrice;
 		}
+		totalAmount += totalPrice - totalDiscountPrice;
 		m.addAttribute("totalPrice", totalPrice);
 		m.addAttribute("totalDiscountPrice", totalDiscountPrice);
 		m.addAttribute("totalAmount", totalAmount);
+
+		session.setAttribute("totalPrice", totalPrice);
+		session.setAttribute("totalDiscountPrice", totalDiscountPrice);
+		session.setAttribute("totalAmount", totalAmount);
 		return "user/addCart";
 	}
 
@@ -92,4 +115,16 @@ public class UserController {
 		return "redirect:/user/viewCart/" + cart.getUser().getId();
 	}
 
+	@GetMapping("/orderPage")
+	public String orderPage() {
+		return "user/orderPage";
+	}
+
+	@PostMapping("/orderNextPage/{id}")
+	private String orderNextPage(@RequestParam String paymentType, @ModelAttribute UserAddressDto userAddressDto,
+			@PathVariable int id) {
+		productOrderService.saveProductOrder(userAddressDto, id, paymentType);
+		cartService.removeAllCartItem(id);
+		return "/user/orderNextPage";
+	}
 }

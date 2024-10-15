@@ -5,6 +5,10 @@
 	font-family: "Fira Sans", sans-serif;
 }
 
+body {
+	background-color: #F1F3F6;
+}
+
 header {
 	height: 7vh;
 	width: 100%;
@@ -12,104 +16,59 @@ header {
 }
 
 .mainContainer {
-	min-height: 80vh;
-	width: 60%;
+	height: 80vh;
+	width: 70%;
 	margin: auto;
 	display: flex;
-	margin-top: 7vh;
 }
 
 .leftCon {
-	height: auto;
-	width: 60%;
+	height: 100%;
+	width: 65%;
 }
 
 .innCon {
-	height: 23vh;
+	height: 70%;
 	width: 100%;
-	border: 0.01rem solid black;
 	margin: 10px 0;
-	display: flex;
+	background-color: #F5FAFF;
 }
 
-.img {
-	height: 100%;
-	width: 24%;
+.innCon>h2 {
+	text-align: center;
+	padding: 10px;
 }
 
-.img>img {
-	height: 100%;
+.innCon>.name,
+.emailAndMobile,
+.addressAndCity,
+.state {
+	height: 15%;
 	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
+	margin-top: 10px;
+
 }
 
-.details {
-	height: 100%;
-	width: 70%;
-	padding-left: 12px;
-}
-
-.details>h4 {
-	font-size: 15px;
-	padding: 5px 0 2px 0;
-}
-
-.details>.para {
-	font-size: 13px;
-	padding: 5px 0;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.productPrice {
-	height: 30px;
-	width: 80%;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 4px;
-}
-
-.productPrice>.discountPrice {
-	font-weight: 900;
-}
-
-.productPrice>.originalPrice {
-	font-size: 14px;
-	font-weight: 600;
-	color: rgb(66, 65, 65);
+.input {
+	height: 90%;
+	width: 47%;
+	font-size: 16px;
 	padding-left: 5px;
-	padding-top: 4px;
-	text-decoration: line-through;
-}
-
-.productPrice>.priceOff {
-	font-size: 12.5px;
-	font-weight: 600;
-	color: green;
-	padding-left: 3px;
-	padding-top: 4px;
-}
-
-.cross {
-	height: 30px;
-	width: 30px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 18px;
-	font-weight: 600;
-	cursor: pointer;
+	outline: none;
+	margin: 7px 5px;
+	background-color: #FFFFFF;
+	border: 1px solid #e0e0e0;
 }
 
 .rightCon {
-	height: 30vh;
-	width: 40%;
+	height: 56vh;
+	width: 35%;
 	padding-left: 10px;
-
+	background-color: #FFFFFF;
+	margin-top: 6vh;
 }
 
 .box1 {
@@ -135,11 +94,38 @@ header {
 	font-weight: 700;
 }
 
+.payment {
+	height: 30%;
+	width: 100%;
+}
+
+.paymentType {
+	height: 100%;
+	border: 1px solid #e0e0e0;
+	margin-top: 20px;
+}
+
+.paymentType>h4 {
+	font-size: 14px;
+	padding: 10px 10px;
+	margin-top: 10px;
+}
+
+#paymentOp {
+	width: 90%;
+	height: 30%;
+	margin-left: 10px;
+	margin-top: 5px;
+	letter-spacing: 1px;
+	font-size: 14px;
+}
+
 .box6 {
-	height: 20%;
+	height: 25%;
 	width: 100%;
 	border: 1px solid #0D6EFD;
 	margin: 5px 5px 0 0px;
+	border-radius: 5px;
 }
 
 .box6>a {
@@ -203,19 +189,4 @@ header {
 .decrement a {
 	text-decoration: none;
 	color: black;
-}
-
-.cross a {
-	text-decoration: none;
-	color: black;
-}
-
-.copyright {
-	height: 8vh;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: #0D6EFD;
-	color: white;
 }
