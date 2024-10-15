@@ -17,4 +17,6 @@ public interface CartService {
 	public CartDto incrementProd(int id);
 
 	public CartDto decrementProd(int id);
+
+	void removeAllCartItem(int userId);
 }
