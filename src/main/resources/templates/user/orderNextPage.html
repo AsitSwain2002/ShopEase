@@ -24,8 +24,8 @@
 					<h2>Your Product Order Successfully</h2>
 				</div>
 				<div class="btn">
-					<button>Home</button>
-					<button>Your Order</button>
+					<a href="/"><button>Home</button></a>
+					<a th:href="@{'/user/userOrderPage/'+${order.getUser().getId()}}"><button>Your Order</button></a>
 				</div>
 			</div>
 		</div>

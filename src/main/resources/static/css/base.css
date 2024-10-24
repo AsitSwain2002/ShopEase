@@ -1,5 +1,32 @@
-@charset "ISO-8859-1";
+.nameee {
+    position: relative;
+}
 
-.adminSelect> countItem {
-	background-color: red !important;
+.profileDetailsss {
+    height: auto;
+    width: 150px;
+    font-size: 15px;
+    position: absolute;
+    color: black;
+    background-color: #0D6EFD;
+    top: 55px;
+    right: -50px;
+    opacity: 0; /* Start with opacity 0 */
+    visibility: hidden; /* Make it hidden initially */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Add transition to opacity and visibility */
+}
+
+.innItemee {
+    border-bottom: 1px solid black;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.name:hover .profileDetails,
+.profileDetails:hover {
+    opacity: 1; /* Fade in */
+    visibility: visible; /* Make it visible */
 }

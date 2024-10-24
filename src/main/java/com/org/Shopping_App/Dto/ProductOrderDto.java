@@ -2,6 +2,7 @@ package com.org.Shopping_App.Dto;
 
 import java.util.Date;
 
+import com.org.Shopping_App.Entity.Products;
 import com.org.Shopping_App.Entity.User;
 import com.org.Shopping_App.Entity.UserAddress;
 
@@ -18,4 +19,5 @@ public class ProductOrderDto {
 	private int quantity;
 	private UserAddress userAddres;
 	private User user;
+	private Products product;
 }

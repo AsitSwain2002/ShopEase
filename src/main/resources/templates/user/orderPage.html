@@ -19,8 +19,10 @@
 					<form th:action="@{'/user/orderNextPage/'+${session.UserDetails.getId()}}" method="post">
 						<h2>Billing Address</h2>
 						<div class="name">
-							<input type="text" name="FirstName" id="FirstName" placeholder="First Name" class="input" required>
-							<input type="text" name="LastName" id="LastName" placeholder="Last Name" class="input" required>
+							<input type="text" name="FirstName" id="FirstName" placeholder="First Name" class="input"
+								required>
+							<input type="text" name="LastName" id="LastName" placeholder="Last Name" class="input"
+								required>
 						</div>
 						<div class="emailAndMobile">
 							<input type="email" name="email" id="email" placeholder="Email" class="input" required>
