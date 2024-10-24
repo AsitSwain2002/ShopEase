@@ -36,9 +36,6 @@ public class CartServiceImpl implements CartService {
 
 	@Autowired
 	private UserRepo userRepo;
-
-	@Autowired
-	private CartService cartService;
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -113,7 +110,7 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public void removeAllCartItem(int userId) {
-		List<Cart> carts = cartRepo.findByUserId(userId);
+		List<Cart> carts = cartRepo.findAllByUserId(userId);
 		cartRepo.deleteAll(carts);
 	}
 

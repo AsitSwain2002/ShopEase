@@ -1,0 +1,133 @@
+body {
+	font-family: Arial, sans-serif;
+	background-color: #F1F3F6;
+}
+
+main {
+	min-height: 94vh;
+	width: 100%;
+}
+
+.mainCon {
+	height: auto;
+	width: 70%;
+	margin: auto;
+}
+
+.mTop {
+	height: 12vh;
+	width: 100%;
+	margin-top: 13vh;
+}
+
+.order {
+	height: 100%;
+	width: 100%;
+	background-color: #FFFFFF;
+	border: 1px solid #94969791;
+	margin: 10px;
+	margin-top: 2vh;
+
+}
+
+.order:hover {
+	box-shadow: 1px 1px 8px #94969791;
+	cursor: pointer;
+}
+
+.product {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 100%;
+	width: 100%;
+}
+
+.img {
+	height: 100%;
+	width: 15%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.img img {
+	width: 37%;
+	height: 80%;
+}
+
+.details {
+	margin-left: 7px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 65%;
+	height: 100%;
+}
+
+.details>.pName {
+	font-size: 0.9em;
+	width: 70%;
+	height: 80%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+}
+
+.price {
+	font-size: 0.94em;
+	width: 10%;
+	height: 80%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	font-weight: 700;
+	color: #C6C3C6;
+}
+
+.status {
+	font-weight: 800;
+}
+
+.OrderStatus {
+	color: black;
+	font-size: 0.95em;
+	width: 30%;
+}
+
+.sDetails {
+	height: 30px;
+	font-size: 13px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+	letter-spacing: 0.5px;
+}
+
+.delivered {
+	color: green;
+}
+
+.order-not-placed {
+	color: red;
+}
+
+.rate-review {
+	color: blue;
+	text-decoration: none;
+}
+
+.rate-review:hover {
+	text-decoration: underline;
+}
+
+footer {
+	width: 100%;
+	position: relative;
+	bottom: 0;
+}

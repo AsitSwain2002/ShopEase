@@ -1,5 +1,7 @@
 package com.org.Shopping_App.Service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.org.Shopping_App.Dto.ProductOrderDto;
@@ -8,5 +10,9 @@ import com.org.Shopping_App.Dto.UserAddressDto;
 @Repository
 public interface ProductOrderService {
 
-	void saveProductOrder(UserAddressDto userAddressDto, int id , String paymentType);
+	void saveProductOrder(UserAddressDto userAddressDto, int id, String paymentType);
+
+	ProductOrderDto searchById(int id);
+
+	List<ProductOrderDto> findAllById(int id);
 }

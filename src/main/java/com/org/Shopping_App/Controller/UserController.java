@@ -121,10 +121,25 @@ public class UserController {
 	}
 
 	@PostMapping("/orderNextPage/{id}")
-	private String orderNextPage(@RequestParam String paymentType, @ModelAttribute UserAddressDto userAddressDto,
-			@PathVariable int id) {
-		productOrderService.saveProductOrder(userAddressDto, id, paymentType);
-		cartService.removeAllCartItem(id);
-		return "/user/orderNextPage";
+	public String orderNextPage(@RequestParam String paymentType, @ModelAttribute UserAddressDto userAddressDto,
+			@PathVariable("id") int userId, Model m) {
+		productOrderService.saveProductOrder(userAddressDto, userId, paymentType);
+		ProductOrderDto pOrder = productOrderService.searchById(userId);
+		System.out.println();
+		System.out.println(userId);
+		System.out.println(pOrder);
+		System.out.println();
+		System.out.println();
+		m.addAttribute("order", pOrder);
+		cartService.removeAllCartItem(userId);
+		return "user/orderPage";
+
+	}
+
+	@GetMapping("/userOrderPage/{pId}")
+	public String userOrderPage(@PathVariable int pId, Model m) {
+		List<ProductOrderDto> findAllById = productOrderService.findAllById(pId);
+		m.addAttribute("AllOrder", findAllById);
+		return "user/userOrderPage";
 	}
 }
