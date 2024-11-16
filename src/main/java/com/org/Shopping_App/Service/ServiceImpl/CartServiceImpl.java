@@ -64,7 +64,7 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public List<CartDto> fetchAllCart(int userId) {
 		User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFound("User Not Found"));
-		List<Cart> carts = user.getCarts();
+		List<Cart> carts = cartRepo.findAllByUserId(userId);
 		return carts.stream().map((e) -> modelMapper.map(e, CartDto.class)).collect(Collectors.toList());
 	}
 
@@ -111,7 +111,6 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public void removeAllCartItem(int userId) {
 		List<Cart> carts = cartRepo.findAllByUserId(userId);
-		cartRepo.deleteAll(carts);
-	}
+		cartRepo.deleteAll(carts);	}
 
 }

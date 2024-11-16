@@ -15,4 +15,6 @@ public interface ProductOrderService {
 	ProductOrderDto searchById(int id);
 
 	List<ProductOrderDto> findAllById(int id);
+
+	void cancelOrder(int orderId);
 }

@@ -18,7 +18,29 @@ header {
 	display: flex;
 	margin-top: 7vh;
 }
-
+.noCartItem{
+	height: 30%;
+	width: 50%;
+	
+}
+.noCartItem > p{
+	display: block;
+	font-size: 25px;
+    font-weight: 700;
+}
+.noCartItem > a{
+	height: 10%;
+	width: 2%;
+	text-decoration: none;
+	border: none;
+}
+.noCartItem > a > button{
+	height: 15%;
+    width: 50%;
+    background-color: #0D6EFD;
+    color: white;
+    border-radius: 10px;
+}
 .leftCon {
 	height: auto;
 	width: 60%;

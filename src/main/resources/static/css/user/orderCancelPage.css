@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body{
+    background-color: #F1F3F6;
+}
+header {
+    height: 7vh;
+    width: 100vw;
+    background-color: greenyellow;
+}
+
+.main {
+    height: auto;
+    width: 100%;
+}
+
+.mainCon {
+    height: 90vh;
+    width: 90%;
+    margin: auto;
+}
+
+.address {
+    height: 30%;
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 1px solid #94969791;
+    margin: 10px;
+    padding: 20px;
+}
+
+.name {
+    font-size: 16px;
+    padding: 10px 0px;
+}
+
+.adDetails {
+    height: 8%;
+    width: 35%;
+    font-size: 14px;
+    padding-bottom: 10px;
+    font-weight: 450;
+    color: #000000a1;
+}
+
+.phNo {
+    font-size: 15px;
+}
+
+.order {
+    height: 24vh;
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 1px solid #94969791;
+    margin: 10px;
+
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80%;
+    width: 100%;
+}
+
+.img {
+    height: 100%;
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img img {
+    width: 37%;
+    height: 80%;
+}
+
+.details {
+    margin-left: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 65%;
+    height: 100%;
+}
+
+.details>.pName {
+    font-size: 0.9em;
+    width: 30%;
+    height: 80%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.price {
+    font-size: 0.94em;
+    width: 10%;
+    height: 80%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    font-weight: 700;
+    color: #C6C3C6;
+}
+
+.status {
+    font-weight: 800;
+}
+
+.OrderStatus {
+    color: black;
+    font-size: 0.95em;
+    width: 30%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.OrderStatus > a{
+    width: 40%;
+    height: 40%;
+}
+.OrderStatus > a > button{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: none;
+    background-color: red;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.sDetails {
+    height: 30px;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    letter-spacing: 0.5px;
+}
+.return{
+    padding-left: 15px;
+}
+
+
+
+.quantity , .date{
+    height: 100%;
+    width: 15%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+.pad{
+    padding-top: 10px;
+    font-weight: 700;
+}

@@ -124,22 +124,29 @@ public class UserController {
 	public String orderNextPage(@RequestParam String paymentType, @ModelAttribute UserAddressDto userAddressDto,
 			@PathVariable("id") int userId, Model m) {
 		productOrderService.saveProductOrder(userAddressDto, userId, paymentType);
-		ProductOrderDto pOrder = productOrderService.searchById(userId);
-		System.out.println();
-		System.out.println(userId);
-		System.out.println(pOrder);
-		System.out.println();
-		System.out.println();
-		m.addAttribute("order", pOrder);
 		cartService.removeAllCartItem(userId);
-		return "user/orderPage";
+		return "user/orderNextPagee";
 
 	}
 
 	@GetMapping("/userOrderPage/{pId}")
-	public String userOrderPage(@PathVariable int pId, Model m) {
+	public String userOrderPage(@PathVariable int pId, Model m, HttpSession session) {
 		List<ProductOrderDto> findAllById = productOrderService.findAllById(pId);
 		m.addAttribute("AllOrder", findAllById);
+		session.setAttribute("AllOrder", findAllById);
 		return "user/userOrderPage";
+	}
+
+	@GetMapping("/orderCancelPage/{id}")
+	public String orderCancelPage(@PathVariable int id, Model m) {
+		ProductOrderDto product = productOrderService.searchById(id);
+		m.addAttribute("product", product);
+		return "user/orderCancelPage";
+	}
+
+	@GetMapping("/cancelOrder/{orderId}")
+	public String cancleOrder(@PathVariable int orderId, @RequestParam int userId) {
+		productOrderService.cancelOrder(orderId);
+		return "redirect:/user/userOrderPage/" + userId;
 	}
 }

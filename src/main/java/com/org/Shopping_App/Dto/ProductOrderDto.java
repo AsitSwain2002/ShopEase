@@ -1,6 +1,7 @@
 package com.org.Shopping_App.Dto;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 import com.org.Shopping_App.Entity.Products;
 import com.org.Shopping_App.Entity.User;
@@ -10,14 +11,15 @@ import lombok.Data;
 
 @Data
 public class ProductOrderDto {
+	
 	private int id;
 	private String orderId;
-	private Date orderDate;
+	private LocalDate orderDate;
 	private String status;
 	private String paymentType;
 	private double price;
 	private int quantity;
-	private UserAddress userAddres;
+	private UserAddress userAddress;
 	private User user;
 	private Products product;
 }

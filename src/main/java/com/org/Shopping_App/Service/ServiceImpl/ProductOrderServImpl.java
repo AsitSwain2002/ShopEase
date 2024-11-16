@@ -1,5 +1,6 @@
 package com.org.Shopping_App.Service.ServiceImpl;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -40,26 +41,27 @@ public class ProductOrderServImpl implements ProductOrderService {
 	public void saveProductOrder(UserAddressDto userAddressDto, int id, String paymentType) {
 		List<CartDto> carts = cartService.fetchAllCart(id);
 		double totalPrice = 0.0;
+
 		for (CartDto cart : carts) {
 			ProductOrder order = new ProductOrder();
 			totalPrice += cart.getProducts().getDiscountPrice() * cart.getQuantity();
 			order.setQuantity(cart.getQuantity());
 			order.setUser(cart.getUser());
 			order.setProduct(cart.getProducts());
-			order.setPrice(totalPrice); // Set total price after looping through carts
-			order.setOrderDate(new Date());
+			order.setPrice(totalPrice);
+			order.setOrderDate(LocalDate.now());
 			order.setOrderId(UUID.randomUUID().toString());
 			order.setPaymentType(paymentType);
 			order.setStatus(AppConstant.OrderReceived);
 			UserAddress address = modelMapper.map(userAddressDto, UserAddress.class);
-			UserAddress savedAddress = userAddressRepo.save(address);
-			order.setUserAddress(savedAddress);
+			userAddressRepo.save(address);
+			order.setUserAddress(address);
 			productOrderRepo.save(order);
 		}
 	}
 
 	public ProductOrderDto searchById(int id) {
-		ProductOrder order = productOrderRepo.findById(id).orElseThrow(() -> new ResourceNotFound("User Not Found"));
+		ProductOrder order = productOrderRepo.findById(id).orElseThrow(() -> new ResourceNotFound("Product Not Found"));
 		return modelMapper.map(order, ProductOrderDto.class);
 	}
 
@@ -72,6 +74,14 @@ public class ProductOrderServImpl implements ProductOrderService {
 //		System.out.println();
 //		System.out.println();
 		return allOrder.stream().map((e) -> modelMapper.map(e, ProductOrderDto.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public void cancelOrder(int orderId) {
+		ProductOrder order = productOrderRepo.findById(orderId)
+				.orElseThrow(() -> new ResourceNotFound("Product Not Found"));
+		productOrderRepo.delete(order);
+
 	}
 
 }
