@@ -15,15 +15,16 @@
 	<div th:replace="~{base :: body}"></div>
 	<main>
 		<div class="mainCon">
-			<div class="mTop">
-				<div class="order" th:each="p:${AllOrder}">
+			<div class="mTop"> </div>
+			<div class="order" th:each="p:${session.AllOrder}">
+				<a th:href="@{'/user/orderCancelPage/' + ${p.getId()}}">
 					<div class="product">
 						<div class="details">
 							<div class="img">
 								<img th:src="@{'/img/category_img/' + ${p.getProduct().getImageName()}}" alt="">
 							</div>
 							<p class="pName">[[${p.getProduct().getTitle()}]]</p>
-							<p class="price">[[${p.getProduct().getDiscountPrice()}]]</p>
+							<p class="price">[[${p.getProduct().getDiscountPrice() * p.getQuantity()}]]</p>
 
 						</div>
 						<div class="OrderStatus">
@@ -31,7 +32,7 @@
 							<p class="sDetails"></p>
 						</div>
 					</div>
-				</div>
+				</a>
 			</div>
 		</div>
 	</main>

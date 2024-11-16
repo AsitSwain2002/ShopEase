@@ -4,19 +4,17 @@ body {
 }
 
 main {
-	min-height: 94vh;
+	height: auto;
 	width: 100%;
 }
 
 .mainCon {
-	height: auto;
+	min-height: 94vh;
 	width: 70%;
 	margin: auto;
 }
 
 .mTop {
-	height: 12vh;
-	width: 100%;
 	margin-top: 13vh;
 }
 
@@ -33,6 +31,12 @@ main {
 .order:hover {
 	box-shadow: 1px 1px 8px #94969791;
 	cursor: pointer;
+}
+
+.order>a {
+	height: 100%;
+	width: 100%;
+	text-decoration: none;
 }
 
 .product {
@@ -86,7 +90,7 @@ main {
 	align-items: flex-start;
 	justify-content: center;
 	font-weight: 700;
-	color: #C6C3C6;
+	color: rgb(128, 128, 0);
 }
 
 .status {
@@ -126,8 +130,8 @@ main {
 	text-decoration: underline;
 }
 
-footer {
+/*footer {
 	width: 100%;
 	position: relative;
 	bottom: 0;
-}
+}*/

@@ -13,56 +13,65 @@
 	<div th:replace="~{base :: body}"></div>
 	<main>
 		<div class="mainContainer">
-			<div class="leftCon">
-				<div class="innCon" th:each="c:${Carts}">
-					<div class="img">
-						<img th:src="@{'/img/category_img/'+${c.getProducts().getImageName()}}" alt="Img">
-					</div>
-					<div class="details">
-						<h4>[[${c.getProducts().getTitle()}]]</h4>
-						<p class="para">[[${c.getProducts().getDescription()}]]</p>
-						<div class="quantity">
-                            <div class="decrement"><a th:href="@{'/user/decrementQuantity/'+${c.getId()}}">-</a></div>
-                            <div class="quan">[[${c.getQuantity()}]]</div>
-                            <div class="increment"><a th:href="@{'/user/incrementQuantity/'+${c.getId()}}">+</a></div>
-                        </div>
-						<div class="productPrice">
-							<span class="discountPrice">&#8377 [[${c.getProducts().getDiscountPrice()}]]</span>
-							<span class="originalPrice">[[${c.getProducts().getPrice()}]]</span>
-							<span class="priceOff">[[${c.getProducts().getDiscount()}]]% Off</span>
+			<th:block th:if="${Carts.isEmpty() == true}">
+				<div class="noCartItem">
+					<p>No Item In Cart </p>
+					<a href="/"><button> Back to Home Page</button></a>
+				</div>
+			</th:block>
+			<th:block th:unless="${Carts.isEmpty() == true}">
+				<div class="leftCon">
+					<div class="innCon" th:each="c:${Carts}">
+						<div class="img">
+							<img th:src="@{'/img/category_img/'+${c.getProducts().getImageName()}}" alt="Img">
 						</div>
-						<p class="para">14 days return available</p>
+						<div class="details">
+							<h4>[[${c.getProducts().getTitle()}]]</h4>
+							<p class="para">[[${c.getProducts().getDescription()}]]</p>
+							<div class="quantity">
+								<div class="decrement"><a th:href="@{'/user/decrementQuantity/'+${c.getId()}}">-</a>
+								</div>
+								<div class="quan">[[${c.getQuantity()}]]</div>
+								<div class="increment"><a th:href="@{'/user/incrementQuantity/'+${c.getId()}}">+</a>
+								</div>
+							</div>
+							<div class="productPrice">
+								<span class="discountPrice">&#8377 [[${c.getProducts().getDiscountPrice()}]]</span>
+								<span class="originalPrice">[[${c.getProducts().getPrice()}]]</span>
+								<span class="priceOff">[[${c.getProducts().getDiscount()}]]% Off</span>
+							</div>
+							<p class="para">14 days return available</p>
+						</div>
+						<div class="cross">
+							<a th:href="@{'/user/removeCart/'+${c.getId()}}">X</a>
+						</div>
 					</div>
-					<div class="cross">
-						<a th:href="@{'/user/removeCart/'+${c.getId()}}">X</a>
+				</div>
+				<div class="rightCon">
+					<div class="box1">
+						<p>PRICE DETAILS ([[${cartLength}]] ITEMS)</p>
+					</div>
+					<div class="box2">
+						<div class="leftBox">Total MRP</div>
+						<div class="rightBox">&#8377 [[${totalPrice}]]</div>
+					</div>
+					<div class="box3">
+						<div class="leftBox">Discount on MRP</div>
+						<div class="rightBox">&#8377 [[${totalDiscountPrice}]]</div>
+					</div>
+					<div class="box4">
+						<div class="leftBox">Delhivery Fee</div>
+						<div class="rightBox">&#8377 0</div>
+					</div>
+					<div class="box5">
+						<div class="leftBox">Total Amount</div>
+						<div class="rightBox">&#8377 [[${totalAmount}]]</div>
+					</div>
+					<div class="box6">
+						<a href="/user/orderPage"><button>PLACE ORDER</button></a>
 					</div>
 				</div>
-			</div>
-			<div class="rightCon">
-				<div class="box1">
-					<p>PRICE DETAILS ([[${cartLength}]] ITEMS)</p>
-				</div>
-				<div class="box2">
-					<div class="leftBox">Total MRP</div>
-					<div class="rightBox">&#8377 [[${totalPrice}]]</div>
-				</div>
-				<div class="box3">
-					<div class="leftBox">Discount on MRP</div>
-					<div class="rightBox">&#8377 [[${totalDiscountPrice}]]</div>
-				</div>
-				<div class="box4">
-					<div class="leftBox">Delhivery Fee</div>
-					<div class="rightBox">&#8377 0</div>
-				</div>
-				<div class="box5">
-					<div class="leftBox">Total Amount</div>
-					<div class="rightBox">&#8377 [[${totalAmount}]]</div>
-				</div>
-				<div class="box6">
-					<a href="/user/orderPage"><button>PLACE ORDER</button></a>
-				</div>
-
-			</div>
+			</th:block>
 		</div>
 	</main>
 	<footer>
