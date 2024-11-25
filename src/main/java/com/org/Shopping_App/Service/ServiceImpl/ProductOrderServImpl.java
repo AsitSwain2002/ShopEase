@@ -52,7 +52,7 @@ public class ProductOrderServImpl implements ProductOrderService {
 			order.setOrderDate(LocalDate.now());
 			order.setOrderId(UUID.randomUUID().toString());
 			order.setPaymentType(paymentType);
-			order.setStatus(AppConstant.OrderReceived);
+			order.setOrderStatus(AppConstant.OrderReceived);
 			UserAddress address = modelMapper.map(userAddressDto, UserAddress.class);
 			userAddressRepo.save(address);
 			order.setUserAddress(address);
@@ -82,6 +82,27 @@ public class ProductOrderServImpl implements ProductOrderService {
 				.orElseThrow(() -> new ResourceNotFound("Product Not Found"));
 		productOrderRepo.delete(order);
 
+	}
+
+	@Override
+	public List<ProductOrderDto> fetchAllOrder() {
+		List<ProductOrder> findAll = productOrderRepo.findAll();
+		return findAll.stream().map((e) -> modelMapper.map(e, ProductOrderDto.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public ProductOrderDto updateOrderStatus(String status, int orderId) {
+		ProductOrder order = productOrderRepo.findById(orderId)
+				.orElseThrow(() -> new ResourceNotFound("Order Not Found"));
+		order.setOrderStatus(status);
+		productOrderRepo.save(order);
+		return modelMapper.map(order, ProductOrderDto.class);
+	}
+
+	@Override
+	public ProductOrderDto searchId(String id) {
+		ProductOrder findByOrderId = productOrderRepo.findByOrderId(id);
+		return modelMapper.map(findByOrderId, ProductOrderDto.class);
 	}
 
 }

@@ -23,8 +23,10 @@
 				<div class="msg">
 					<h2>Your Product Order Successfully</h2>
 				</div>
-				<div class="btn">
-					<a href="/"><button>Home</button></a>
+				<div class="btnn">
+					<a href="/">
+						<button>Home</button>
+						</a>
 					<a th:href="@{'/user/userOrderPage/'+${session.UserDetails.getId()}}"><button>Your Order</button></a>
 				</div>
 			</div>

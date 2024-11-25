@@ -21,13 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.org.Shopping_App.Dto.CatagoryDto;
+import com.org.Shopping_App.Dto.ProductOrderDto;
 import com.org.Shopping_App.Dto.ProductsDto;
 import com.org.Shopping_App.Dto.UserDto;
 import com.org.Shopping_App.Repo.UserRepo;
 import com.org.Shopping_App.Service.CatagoryService;
+import com.org.Shopping_App.Service.ProductOrderService;
 import com.org.Shopping_App.Service.ProductService;
 import com.org.Shopping_App.Service.UserService;
+import com.org.Shopping_App.util.MailUtil;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
@@ -44,6 +48,12 @@ public class AdminController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private ProductOrderService productOrderService;
+
+	@Autowired
+	private MailUtil mailUtil;
 
 	@GetMapping("/")
 	public String viewIndex() {
@@ -197,15 +207,53 @@ public class AdminController {
 
 	// Set User Status
 	@GetMapping("/updateStatus")
-	public String updartStatus(@RequestParam Boolean status, @RequestParam int id , HttpSession session) {
+	public String updartStatus(@RequestParam Boolean status, @RequestParam int id, HttpSession session) {
 
-		UserDto updateStatus = userService.updateStatus(status,id);
-		if(ObjectUtils.isEmpty(updateStatus)) {
+		UserDto updateStatus = userService.updateStatus(status, id);
+		if (ObjectUtils.isEmpty(updateStatus)) {
 			session.setAttribute("errorMsg", "Something Went Wrong On Server");
-		}
-		else {
+		} else {
 			session.setAttribute("succMsg", "Update Successfully");
 		}
 		return "redirect:/admin/users";
+	}
+
+	@GetMapping("/orders")
+	public String orderUpdatePage(Model m) {
+		List<ProductOrderDto> fetchAllOrder = productOrderService.fetchAllOrder();
+		m.addAttribute("allOrder", fetchAllOrder);
+		return "admin/OrderUpdate";
+	}
+
+	@PostMapping("/updateStatus")
+	public String updateOrderStatus(@RequestParam String status, Model m, @RequestParam int orderId,
+			HttpSession session) {
+		if (status == null || status.isEmpty()) {
+			m.addAttribute("err", "Status cannot be empty");
+			return "/admin/orders";
+		}
+		ProductOrderDto updateOrderStatus = productOrderService.updateOrderStatus(status, orderId);
+		if (ObjectUtils.isEmpty(updateOrderStatus)) {
+			m.addAttribute("err", "Something Went Wrong In Server");
+		} else {
+			m.addAttribute("success", "updated Success");
+			boolean sendMailForProductOrder = mailUtil.sendMailForProductOrder(updateOrderStatus);
+			if (sendMailForProductOrder) {
+				session.setAttribute("mailSucc", "Mail Send Successfully");
+				System.out.println();
+				System.out.println("Mail Send Successfully");
+				System.out.println();
+			} else {
+				session.setAttribute("mailErr", "Mail Not Send");
+			}
+		}
+		return "redirect:/admin/orders";
+	}
+
+	@PostMapping("/searchId")
+	public String searchId(@RequestParam String search, Model m) {
+		ProductOrderDto searchId = productOrderService.searchId(search);
+		m.addAttribute("allOrder", searchId);
+		return "admin/OrderUpdate";
 	}
 }

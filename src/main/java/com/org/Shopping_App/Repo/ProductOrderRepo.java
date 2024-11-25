@@ -13,4 +13,6 @@ public interface ProductOrderRepo extends JpaRepository<ProductOrder, Integer> {
 	@Query("SELECT p FROM ProductOrder p WHERE p.user.id = :id")
 	List<ProductOrder> findAllByUserId(@Param("id") int id);
 
+	ProductOrder findByOrderId(String id);
+
 }

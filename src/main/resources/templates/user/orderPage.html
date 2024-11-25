@@ -36,20 +36,6 @@
 							<input type="text" name="state" id="state" placeholder="State" class="input" required>
 							<input type="tel" name="pincode" id="pincode" placeholder="Pincode" class="input" required>
 						</div>
-
-						<div class="payment">
-							<h4>Select Payment Type</h4>
-							<select name="paymentType" id="paymentOp" required>
-								<option value="">--Select--</option>
-								<option value="creditCard">Credit Card</option>
-								<option value="debitCard">Debit Card</option>
-								<option value="Cod">Cash On Delivery</option>
-							</select>
-						</div>
-						<div class="box6">
-							<button type="submit">PLACE ORDER</button>
-						</div>
-					</form>
 				</div>
 			</div>
 
@@ -73,6 +59,19 @@
 					<div class="leftBox">Total Amount</div>
 					<div class="rightBox">&#8377; [[${session.totalAmount}]]</div>
 				</div>
+				<div class="payment">
+					<h4>Select Payment Type</h4>
+					<select name="paymentType" id="paymentOp" required>
+						<option value="">--Select--</option>
+						<option value="creditCard">Credit Card</option>
+						<option value="debitCard">Debit Card</option>
+						<option value="Cod">Cash On Delivery</option>
+					</select>
+				</div>
+				<div class="box6">
+					<button type="submit" class="sub">PLACE ORDER</button>
+				</div>
+				</form>
 			</div>
 		</div>
 	</main>
