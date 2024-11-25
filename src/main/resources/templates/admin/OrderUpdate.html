@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+	<style>
+		* {
+			margin: 0px;
+			padding: 0px;
+			box-sizing: border-box;
+		}
+
+		.main {
+			height: auto;
+			width: 100%;
+			margin-top: 12vh;
+			padding-left: 7px;
+		}
+
+		.btnn {
+			width: 100px;
+			background-color: #0D6EFD;
+			color: white;
+			border-radius: 5px;
+			border: 1px solid black;
+		}
+
+		.searchId {
+			width: 20vw;
+			height: 4vh;
+			outline: none;
+			padding-left: 5px;
+			margin-bottom: 10px;
+			border-radius: 4px;
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<div th:replace="base :: body"></div>
+	<div class="main">
+		<h3 class="text-center">All Orders</h3>
+		<form action="/admin/searchId" method="post">
+			<input type="search" placeholder="Enter Order Id" name="search" class="searchId">
+			<button type="submit" class="btnn">Submit</button>
+		</form>
+		<table class="table">
+			<thead class="table-info">
+				<tr>
+					<th scope="col">Order Id</th>
+					<th scope="col">Date</th>
+					<th scope="col">Product Details</th>
+					<th scope="col">Price</th>
+					<th scope="col">Status</th>
+					<th scope="col">Action</th>
+					<th scope="col">Update</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="order: ${allOrder}" class="table-secondary">
+					<td>[[${order.getOrderId()}]]</td>
+					<td>[[${order.getOrderDate()}]]</td>
+					<td>[[${order.getProduct().getTitle()}]]</td>
+					<td>Quantity - [[${order.getQuantity()}]]<br>
+						Price- [[${order.getPrice()}]]<br>
+						Total Price -[[${order.getQuantity() * order.getPrice()}]]
+					</td>
+					<td>[[${order.getOrderStatus()}]]</td>
+					<form th:action="@{/admin/updateStatus(orderId=${order.getId()})}" method="post">
+
+						<td>
+							<select name="status">
+								<option value="">--select--</option>
+								<option value="In Progress">In Progress</option>
+								<option value="Product Packed">Product Packed</option>
+								<option value="Out For Delivery">Out For Delivery</option>
+								<option value="Delivered">Delivered</option>
+								<option value="Canclled">Canclled</option>
+							</select>
+						</td>
+						<td><button class="btnn" type="submit">Update</button></td>
+					</form>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

@@ -20,7 +20,7 @@ public class ProductOrder {
 	private int id;
 	private String orderId;
 	private LocalDate orderDate;
-	private String status;
+	private String orderStatus;
 	private String paymentType;
 	private double price;
 	private int quantity;

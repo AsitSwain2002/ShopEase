@@ -17,4 +17,10 @@ public interface ProductOrderService {
 	List<ProductOrderDto> findAllById(int id);
 
 	void cancelOrder(int orderId);
+
+	List<ProductOrderDto> fetchAllOrder();
+
+	ProductOrderDto updateOrderStatus(String status, int orderId);
+
+	ProductOrderDto searchId(String id);
 }

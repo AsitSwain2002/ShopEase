@@ -33,7 +33,10 @@
 							<img th:src="@{'/img/category_img/' + ${product.getProduct().getImageName()}}"
 								alt="product">
 						</div>
-						<p class="pName">[[${product.getProduct().getTitle()}]]</p>
+						<div class="prodName">
+							<p class="pad">Product Name</p>
+							<p class="pName">[[${product.getProduct().getTitle()}]]</p>
+						</div>
 						<div class="quantity">
 							<p class="pad">Quantity</p>
 							<p>[[${product.getQuantity()}]]</p>
@@ -42,18 +45,20 @@
 							<p class="pad">Order Date</p>
 							<p>[[${product.getOrderDate()}]]</p>
 						</div>
-						<p class="price">₹[[${product.getProduct().getDiscountPrice() * product.getQuantity()}]]</p>
-
+						<div class="priceBox">
+							<p class="pad">Price</p>
+							<p class="price">₹[[${product.getProduct().getDiscountPrice() * product.getQuantity()}]]</p>
+						</div>
 					</div>
 					<div class="OrderStatus">
 						<a th:href="@{'/user/cancelOrder/'+${product.id}+'?userId='+${product.user.id}}">
 							<button>Cancel Order</button>
 						</a>
 					</div>
-
 				</div>
-				<div class="return">7 days Return policy</div>
 			</div>
+			<div class="return">7 days Return policy</div>
+		</div>
 	</main>
 	<footer>
 		<div class="bg-primary text-center text-white">
