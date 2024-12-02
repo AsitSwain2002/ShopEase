@@ -28,4 +28,6 @@ public interface UserService {
 	UserDto updatePassword(int id, String firstPas);
 
 	UserDto findById(int id);
+
+	UserDto updateUser(UserDto userDto , int Id);
 }

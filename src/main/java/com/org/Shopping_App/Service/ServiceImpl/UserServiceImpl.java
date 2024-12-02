@@ -129,4 +129,14 @@ public class UserServiceImpl implements UserService {
 		return modelMapper.map(user, UserDto.class);
 	}
 
+	@Override
+	public UserDto updateUser(UserDto userDto, int Id) {
+		User user = userRepo.findById(Id).orElseThrow(() -> new ResourceNotFound("User Not Found"));
+		user.setName(userDto.getName());
+		user.setEmail(userDto.getEmail());
+		user.setMobile(userDto.getMobile());
+		userRepo.save(user);
+		return modelMapper.map(user, UserDto.class);
+	}
+
 }

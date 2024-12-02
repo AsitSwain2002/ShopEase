@@ -1,6 +1,7 @@
 package com.org.Shopping_App.Service.ServiceImpl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,9 @@ import com.org.Shopping_App.Service.CartService;
 import com.org.Shopping_App.Service.ProductOrderService;
 import com.org.Shopping_App.exceptionHandler.ResourceNotFound;
 import com.org.Shopping_App.util.AppConstant;
+import com.org.Shopping_App.util.MailUtil;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ProductOrderServImpl implements ProductOrderService {
@@ -36,12 +40,14 @@ public class ProductOrderServImpl implements ProductOrderService {
 	private UserAddressRepo userAddressRepo;
 	@Autowired
 	private CartService cartService;
+	@Autowired
+	private MailUtil mailUtil;
 
 	@Override
-	public void saveProductOrder(UserAddressDto userAddressDto, int id, String paymentType) {
+	public void saveProductOrder(UserAddressDto userAddressDto, int id, String paymentType, HttpSession session) {
 		List<CartDto> carts = cartService.fetchAllCart(id);
 		double totalPrice = 0.0;
-
+		List<ProductOrderDto> productOrderDtos = new ArrayList<>();
 		for (CartDto cart : carts) {
 			ProductOrder order = new ProductOrder();
 			totalPrice += cart.getProducts().getDiscountPrice() * cart.getQuantity();
@@ -54,10 +60,14 @@ public class ProductOrderServImpl implements ProductOrderService {
 			order.setPaymentType(paymentType);
 			order.setOrderStatus(AppConstant.OrderReceived);
 			UserAddress address = modelMapper.map(userAddressDto, UserAddress.class);
+			address.setProductorder(order);
 			userAddressRepo.save(address);
 			order.setUserAddress(address);
-			productOrderRepo.save(order);
+			ProductOrder save = productOrderRepo.save(order);
+			userAddressDto.setProductorder(save);
+			mailUtil.sendMailForProductOrders(modelMapper.map(order, ProductOrderDto.class), userAddressDto.getEmail());
 		}
+		session.setAttribute("AllMailOrder", productOrderDtos);
 	}
 
 	public ProductOrderDto searchById(int id) {
