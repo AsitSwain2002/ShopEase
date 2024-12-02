@@ -39,5 +39,4 @@ public class User {
 	private String token;
 	@OneToMany(mappedBy = "user")
 	private List<Cart> carts;
-
 }

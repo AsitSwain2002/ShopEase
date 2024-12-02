@@ -7,10 +7,12 @@ import org.springframework.stereotype.Repository;
 import com.org.Shopping_App.Dto.ProductOrderDto;
 import com.org.Shopping_App.Dto.UserAddressDto;
 
+import jakarta.servlet.http.HttpSession;
+
 @Repository
 public interface ProductOrderService {
 
-	void saveProductOrder(UserAddressDto userAddressDto, int id, String paymentType);
+	void saveProductOrder(UserAddressDto userAddressDto, int id, String paymentType, HttpSession session);
 
 	ProductOrderDto searchById(int id);
 
@@ -23,4 +25,5 @@ public interface ProductOrderService {
 	ProductOrderDto updateOrderStatus(String status, int orderId);
 
 	ProductOrderDto searchId(String id);
+
 }

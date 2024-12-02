@@ -2,6 +2,7 @@ package com.org.Shopping_App.Controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,7 @@ import com.org.Shopping_App.Service.CartService;
 import com.org.Shopping_App.Service.ProductOrderService;
 import com.org.Shopping_App.Service.ProductService;
 import com.org.Shopping_App.Service.UserService;
+import com.org.Shopping_App.util.MailUtil;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -122,8 +124,8 @@ public class UserController {
 
 	@PostMapping("/orderNextPage/{id}")
 	public String orderNextPage(@RequestParam String paymentType, @ModelAttribute UserAddressDto userAddressDto,
-			@PathVariable("id") int userId, Model m) {
-		productOrderService.saveProductOrder(userAddressDto, userId, paymentType);
+			@PathVariable("id") int userId, Model m, HttpSession session) {
+		productOrderService.saveProductOrder(userAddressDto, userId, paymentType, session);
 		cartService.removeAllCartItem(userId);
 		return "user/orderNextPagee";
 
@@ -148,5 +150,17 @@ public class UserController {
 	public String cancleOrder(@PathVariable int orderId, @RequestParam int userId) {
 		productOrderService.cancelOrder(orderId);
 		return "redirect:/user/userOrderPage/" + userId;
+	}
+
+	@GetMapping("/viewProfile")
+	public String viewProfile() {
+		return "user/profilePage";
+	}
+
+	@PostMapping("/updateUser/{id}")
+	public String updateUser(@ModelAttribute UserDto userDto, @PathVariable int id, HttpSession session) {
+		UserDto updateUser = userService.updateUser(userDto, id);
+		session.setAttribute("UserDetails", updateUser);
+		return "user/profilePage";
 	}
 }

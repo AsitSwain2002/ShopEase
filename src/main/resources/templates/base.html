@@ -56,23 +56,14 @@
 						<th:block th:if="${session.UserDetails != null}">
 							<li class="nav-item me-4 adminSelect nameee">
 								<th:block th:if="${session.UserDetails.role == 'ADMIN'}">
-									<a class="nav-link active" aria-current="page" href="/admin/">
+									<a class="nav-link active text-light" aria-current="page" href="/admin/">
 										<i class="ri-user-fill me-1"></i>[[${session.UserDetails.name}]]
 									</a>
 								</th:block>
 								<th:block th:unless="${session.UserDetails.role == 'ADMIN'}">
-									<a class="nav-link active abc" aria-current="page" href="/user/">
+									<a class="nav-link active abc text-light" aria-current="page" href="/user/viewProfile">
 										<i class="ri-user-fill me-1"></i>[[${session.UserDetails.name}]]
 									</a>
-									<!--										<div class="profileDetailsss">-->
-									<!--											<a class="nav-link active text-light innItemee" aria-current="page"-->
-									<!--												href="#">My Order </a>-->
-									<!--											<a class="nav-link active text-light innItem" aria-current="page"-->
-									<!--												href="#">My Order </a>-->
-									<!--											<a class="nav-link active text-light innItem" aria-current="page"-->
-									<!--												href="#">My Order </a>-->
-
-									<!--										</div>-->
 								</th:block>
 							</li>
 							<th:block th:if="${session.UserDetails.role == 'USER'}">

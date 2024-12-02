@@ -1,6 +1,7 @@
 package com.org.Shopping_App.util;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -67,6 +68,31 @@ public class MailUtil {
 
 			helper.setText(content, true);
 
+			javaMailSender.send(mimeMessage);
+			return true;
+		} catch (MessagingException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean sendMailForProductOrders(ProductOrderDto p , String email) {
+		try {
+			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            
+			helper.setFrom("asitoctafx@gmail.com");
+			helper.setTo(email);
+			helper.setSubject("Order Status");	
+			String content = "<p>Your Order Status: <strong>" + p.getOrderStatus() + "</strong></p>"
+					+ "<p><strong>Product Details:</strong></p>" + "<ul>" + "<li>Name: "
+					+ p.getProduct().getTitle() + "</li>" + "<li>Category: "
+					+ p.getProduct().getCatagory() + "</li>" + "<li>Quantity: "
+					+ p.getQuantity() + "</li>" + "<li>Price: "
+					+ (p.getProduct().getDiscountPrice() * p.getQuantity()) + "</li>"
+					+ "<li>Payment Type: " +p.getPaymentType() + "</li>" + "</ul>" + "<br>" + "<br>"
+					+ "<p> <strong>Thank You For Shopping With Us  : SHOPEASE</strong></p>";
+			helper.setText(content, true);			
 			javaMailSender.send(mimeMessage);
 			return true;
 		} catch (MessagingException e) {
