@@ -28,7 +28,7 @@
 					<div class="name">Hey , [[${session.UserDetails.getName()}]]</div>
 				</div>
 				<div class="otherdetails">
-					<a href="#">
+					<a th:href="@{'/user/userOrderPage/'+${session.UserDetails.getId()}}">
 						<div class="orders">
 							<img th:src="@{/img/download.svg}" alt="Img">
 							<p>My Order</p>
@@ -104,6 +104,33 @@
 						<a href="#">
 							<p class="dlt clr">Delete Account</p>
 						</a>
+					</div>
+					<div class="pasChange">
+						<div class="inpas">
+							<h5>Change Password</h5>
+							<div class="errOrsuccMsg">
+								<th:block th:if="${session.successMsg}">
+									<p class="text-success fw-bold">[[${session.successMsg}]]</p>
+									<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+								</th:block>
+								<th:block th:if="${session.errorMsg}">
+									<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+									<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+								</th:block>
+							</div>
+							<form th:action="@{'/user/updatePassword/'+${session.UserDetails.getId()}}" method="post">
+								<label for="pas"> Old Password:</label>
+								<input type="password" name="oldPassword" id="oldPas">
+
+								<label for="pas">New Password:</label>
+								<input type="text" name="newPassword" id="oldPas">
+
+								<label for="pas">ReEnter Password:</label>
+								<input type="text" name="reEnterPassword" id="oldPas">
+
+								<input type="submit" value="Submit" id="sub">
+							</form>
+						</div>
 					</div>
 				</div>
 				<div class="forImg">

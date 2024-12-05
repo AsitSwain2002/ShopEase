@@ -3,6 +3,8 @@ package com.org.Shopping_App.Service;
 import java.util.List;
 import com.org.Shopping_App.Dto.UserDto;
 
+import jakarta.servlet.http.HttpSession;
+
 public interface UserService {
 
 	UserDto saveUser(UserDto userDto);
@@ -29,5 +31,7 @@ public interface UserService {
 
 	UserDto findById(int id);
 
-	UserDto updateUser(UserDto userDto , int Id);
+	UserDto updateUser(UserDto userDto, int Id);
+
+	UserDto updatePassword(String oldPassword, String newPassword , String reEnterPassword, int userId , HttpSession session);
 }

@@ -163,4 +163,14 @@ public class UserController {
 		session.setAttribute("UserDetails", updateUser);
 		return "user/profilePage";
 	}
+
+	@PostMapping("/updatePassword/{userId}")
+	public String updatePassword(@RequestParam String oldPassword, @RequestParam String newPassword,
+			@RequestParam String reEnterPassword, @PathVariable int userId, HttpSession session) {
+		UserDto updatePassword = userService.updatePassword(oldPassword, newPassword, reEnterPassword, userId, session);
+		if (ObjectUtils.isEmpty(updatePassword)) {
+			session.setAttribute("errorMsg", "Something Went Wrong In Server");
+		}
+		return "user/profilePage";
+	}
 }

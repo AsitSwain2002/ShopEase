@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 
 import com.org.Shopping_App.Dto.UserDto;
 import com.org.Shopping_App.Entity.User;
@@ -15,6 +17,8 @@ import com.org.Shopping_App.Repo.UserRepo;
 import com.org.Shopping_App.Service.UserService;
 import com.org.Shopping_App.exceptionHandler.ResourceNotFound;
 import com.org.Shopping_App.util.AppConstant;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -136,6 +140,32 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(userDto.getEmail());
 		user.setMobile(userDto.getMobile());
 		userRepo.save(user);
+		return modelMapper.map(user, UserDto.class);
+	}
+
+	@Override
+	public UserDto updatePassword(String oldPassword, String newPassword, String reEnterPassword, int userId,
+			HttpSession session) {
+		User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFound("User Not Found"));
+		System.out.println();
+		System.out.println();
+		System.out.println(user.getPassword());
+		System.out.println(encoder.matches(user.getPassword(),oldPassword));
+		System.out.println();
+		System.out.println();
+
+		if (encoder.matches(oldPassword , user.getPassword())) {
+			if (newPassword.equals(reEnterPassword)) {
+				String encodePas = encoder.encode(newPassword);
+				user.setPassword(encodePas);
+				userRepo.save(user);
+				session.setAttribute("successMsg", "Password Update Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Password Did Not Match");
+			}
+		} else {
+			session.setAttribute("errorMsg", "New Password Did Not Match");
+		}
 		return modelMapper.map(user, UserDto.class);
 	}
 
