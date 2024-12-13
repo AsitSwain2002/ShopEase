@@ -11,7 +11,7 @@ main {
 }
 
 .search {
-	margin-top: 3.2%;
+	margin-top: 4.1%;
 	height: 8vh;
 	width: 100%;
 	background-color: #0D6EFD;
@@ -23,7 +23,7 @@ main {
 }
 
 .searchBox {
-	height: 40%;
+	height: 60%;
 	width: 50%;
 	border-radius: 12px;
 	margin-left: 65px;
@@ -106,7 +106,8 @@ main {
 	width: 100%;
 
 }
-.innItem > a{
+
+.innItem>a {
 	text-decoration: none;
 	color: black;
 	height: 100%;
@@ -114,8 +115,9 @@ main {
 	display: flex;
 	align-items: center;
 	border-radius: 6px;
-   padding-left: 9px;
+	padding-left: 9px;
 }
+
 .items>.innItem:hover {
 	cursor: pointer;
 	background-color: #e3e3dd;
@@ -199,17 +201,17 @@ main {
 }
 
 .productDetails>.name {
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-left: 10px;
-    font-family: "Roboto", sans-serif;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700; 
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-left: 10px;
+	font-family: "Roboto", sans-serif;
+	font-size: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700;
 }
 
 .discount {
@@ -337,7 +339,7 @@ main {
 	text-decoration: underline;
 }
 
-.active{
+.active {
 	background-color: #649ef4;
 	color: white;
 }

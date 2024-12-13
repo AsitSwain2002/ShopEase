@@ -20,9 +20,9 @@
 		<!-- search Box Start -->
 		<div class="search">
 			<div class="searchBox">
-				<form action="#">
+				<form action="/seachProd" method="post">
 					<input type="search" name="search" id="search">
-					<button type="button" id="submit"><i class="ri-search-line"></i>Submit</button>
+					<button type="submit" id="submit"><i class="ri-search-line"></i>Submit</button>
 				</form>
 			</div>
 		</div>
@@ -34,8 +34,8 @@
 					<h5>Catagories</h5>
 				</div>
 				<div class="items">
-					<div class="innItem"><a href="/product"
-					th:classappend="${catgoryName == null} ? 'active' : ''">All</div></a>
+					<div class="innItem"><a href="/product" th:classappend="${catgoryName == null} ? 'active' : ''">All
+					</div></a>
 					<div class="innItem" th:each="c:${session.catagories}">
 						<a th:href="@{'/productCatgory/'+${c.name}}"
 							th:classappend="${c.name == catgoryName} ? 'active' : ''">

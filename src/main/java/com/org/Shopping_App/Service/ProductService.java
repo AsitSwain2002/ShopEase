@@ -19,4 +19,6 @@ public interface ProductService {
 	ProductsDto updateProduct(ProductsDto productsDto, int id, MultipartFile file);
 
 	List<ProductsDto> fetchAllByName(String name);
+
+	List<ProductsDto> fetchAllProduct(String keyword , String CatName);
 }

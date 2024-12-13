@@ -1,4 +1,4 @@
-package com.org.Shopping_App.config;
+ package com.org.Shopping_App.config;
 
 import java.io.IOException;
 import java.util.Collection;

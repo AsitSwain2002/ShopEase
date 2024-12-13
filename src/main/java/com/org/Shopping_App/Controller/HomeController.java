@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.org.Shopping_App.Dto.ProductsDto;
 import com.org.Shopping_App.Dto.UserDto;
 import com.org.Shopping_App.Service.CatagoryService;
 import com.org.Shopping_App.Service.ProductService;
@@ -89,11 +91,11 @@ public class HomeController {
 		} else {
 			session.setAttribute("errorMsg", "Something Went  Wrong");
 		}
-		return "register";
+		return "redirect:/register";
 	}
 
 	@ModelAttribute
-	public void getUSerDetails(Principal p, Model m , HttpSession session) {
+	public void getUSerDetails(Principal p, Model m, HttpSession session) {
 
 		if (p != null) {
 			String email = p.getName();
@@ -116,12 +118,12 @@ public class HomeController {
 	}
 
 	@PostMapping("/resetPasswordCheck")
-	public String checkResetPassword(HttpSession session , String firstPas) {
+	public String checkResetPassword(HttpSession session, String firstPas) {
 
 		String sessionToken = (String) session.getAttribute("token");
 		UserDto userToken = userService.findByToken(sessionToken);
 		if (sessionToken.equals(userToken.getToken())) {
-			UserDto updatePassword = userService.updatePassword( userToken.getId() , firstPas);
+			UserDto updatePassword = userService.updatePassword(userToken.getId(), firstPas);
 			if (!ObjectUtils.isEmpty(updatePassword)) {
 
 				session.setAttribute("succMsg", "Update SuccessFully");
@@ -162,4 +164,10 @@ public class HomeController {
 		}
 	}
 
+	@PostMapping("/seachProd")
+	public String searchProd(@RequestParam String search, HttpSession session) {
+		List<ProductsDto> products = productService.fetchAllProduct(search,search);
+		session.setAttribute("products", products);
+		return "products";
+	}
 }

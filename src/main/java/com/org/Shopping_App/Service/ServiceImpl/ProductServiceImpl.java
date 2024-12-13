@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +104,14 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductsDto> fetchAllByName(String name) {
 		List<Products> products = productRepo.findAllByCatagory(name);
-		return products.stream().map((e)->modelMapper.map(e, ProductsDto.class)).collect(Collectors.toList());
+		return products.stream().map((e) -> modelMapper.map(e, ProductsDto.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ProductsDto> fetchAllProduct(String keyword, String CatName) {
+		List<Products> products = productRepo.findByTitleContainingIgnoreCaseOrCatagoryContainingIgnoreCase(keyword,
+				CatName);
+		return products.stream().map((m) -> modelMapper.map(m, ProductsDto.class)).collect(Collectors.toList());
 	}
 
 }
