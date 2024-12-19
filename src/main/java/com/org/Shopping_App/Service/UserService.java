@@ -34,4 +34,7 @@ public interface UserService {
 	UserDto updateUser(UserDto userDto, int Id);
 
 	UserDto updatePassword(String oldPassword, String newPassword , String reEnterPassword, int userId , HttpSession session);
+	
+	List<UserDto> fetchAllUserByName(String name);
+	
 }

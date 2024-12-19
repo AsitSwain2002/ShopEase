@@ -164,11 +164,11 @@ public class AdminController {
 	}
 
 	// View Product
-	@GetMapping("/product")
-	public String viewProduct(Model m) {
-		m.addAttribute("allProducts", productService.fetchAllProduct());
-		return "/admin/viewProduct";
-	}
+//	@GetMapping("/product")
+//	public String viewProduct(Model m) {
+//		m.addAttribute("allProducts", productService.fetchAllProduct());
+//		return "/admin/viewProduct";
+//	}
 
 	// Remove Product
 	@GetMapping("/removeProduct/{id}")
@@ -252,8 +252,22 @@ public class AdminController {
 
 	@PostMapping("/searchId")
 	public String searchId(@RequestParam String search, Model m) {
-		ProductOrderDto searchId = productOrderService.searchId(search);
+		 List<ProductOrderDto> searchId = productOrderService.searchId(search);
 		m.addAttribute("allOrder", searchId);
 		return "admin/OrderUpdate";
+	}
+
+	@PostMapping("/searchProductByName")
+	public String searchProductByName(@RequestParam String name, Model m) {
+		List<ProductsDto> allProducts = productService.searchByName(name);
+		m.addAttribute("allProducts", allProducts);
+		return "/admin/viewProduct";
+	}
+	
+	@PostMapping("/searchUserByName")
+	public String searchUserByName(@RequestParam String name, Model m) {
+		 List<UserDto> fetchAllByName = userService.fetchAllUserByName(name);
+		m.addAttribute("allUser", fetchAllByName);
+		return "admin/showAllUser";
 	}
 }

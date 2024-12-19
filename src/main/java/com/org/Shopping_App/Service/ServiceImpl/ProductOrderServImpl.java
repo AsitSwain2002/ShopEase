@@ -110,9 +110,9 @@ public class ProductOrderServImpl implements ProductOrderService {
 	}
 
 	@Override
-	public ProductOrderDto searchId(String id) {
-		ProductOrder findByOrderId = productOrderRepo.findByOrderId(id);
-		return modelMapper.map(findByOrderId, ProductOrderDto.class);
-	}
+	public List<ProductOrderDto> searchId(String id) {
+		List<ProductOrder> findByOrderId = productOrderRepo.findByOrderIdContainingIgnoreCase(id);
+		return findByOrderId.stream().map((e) -> modelMapper.map(e, ProductOrderDto.class)).collect(Collectors.toList());
+		}
 
 }

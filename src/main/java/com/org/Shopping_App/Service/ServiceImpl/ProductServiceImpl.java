@@ -8,11 +8,15 @@ import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.org.Shopping_App.Dto.CatagoryDto;
+import com.org.Shopping_App.Dto.ProductOrderDto;
 import com.org.Shopping_App.Dto.ProductsDto;
 import com.org.Shopping_App.Entity.Catagory;
 import com.org.Shopping_App.Entity.Products;
@@ -48,8 +52,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductsDto> fetchAllProduct() {
-		List<Products> findAll = productRepo.findAll();
+	public List<ProductsDto> fetchAllProduct(Integer pageNum, Integer pageSize) {
+		Pageable pageable = PageRequest.of(pageNum, pageSize);
+		Page<Products> findAll = productRepo.findAll(pageable);
 		return findAll.stream().map((e) -> modelMapper.map(e, ProductsDto.class)).collect(Collectors.toList());
 	}
 
@@ -112,6 +117,12 @@ public class ProductServiceImpl implements ProductService {
 		List<Products> products = productRepo.findByTitleContainingIgnoreCaseOrCatagoryContainingIgnoreCase(keyword,
 				CatName);
 		return products.stream().map((m) -> modelMapper.map(m, ProductsDto.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ProductsDto> searchByName(String name) {
+		List<Products> products = productRepo.findByTitleContainingIgnoreCaseOrCatagoryContainingIgnoreCase(name, name);
+		return products.stream().map((p) -> modelMapper.map(p, ProductsDto.class)).collect(Collectors.toList());
 	}
 
 }
