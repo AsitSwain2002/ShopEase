@@ -1,4 +1,4 @@
-package com.org.Shopping_App.config;
+																																																																								package com.org.Shopping_App.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

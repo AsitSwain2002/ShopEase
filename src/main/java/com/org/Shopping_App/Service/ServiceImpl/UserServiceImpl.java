@@ -147,14 +147,8 @@ public class UserServiceImpl implements UserService {
 	public UserDto updatePassword(String oldPassword, String newPassword, String reEnterPassword, int userId,
 			HttpSession session) {
 		User user = userRepo.findById(userId).orElseThrow(() -> new ResourceNotFound("User Not Found"));
-		System.out.println();
-		System.out.println();
-		System.out.println(user.getPassword());
-		System.out.println(encoder.matches(user.getPassword(),oldPassword));
-		System.out.println();
-		System.out.println();
 
-		if (encoder.matches(oldPassword , user.getPassword())) {
+		if (encoder.matches(oldPassword, user.getPassword())) {
 			if (newPassword.equals(reEnterPassword)) {
 				String encodePas = encoder.encode(newPassword);
 				user.setPassword(encodePas);
@@ -167,6 +161,17 @@ public class UserServiceImpl implements UserService {
 			session.setAttribute("errorMsg", "New Password Did Not Match");
 		}
 		return modelMapper.map(user, UserDto.class);
+	}
+
+	@Override
+	public List<UserDto> fetchAllUserByName(String name) {
+		List<User> names = userRepo.findAllByName(name);
+		System.out.println();
+		System.out.println();
+		System.out.println(names);
+		System.out.println();
+		System.out.println();
+		return names.stream().map((n) -> modelMapper.map(n, UserDto.class)).collect(Collectors.toList());
 	}
 
 }

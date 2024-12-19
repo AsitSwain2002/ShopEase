@@ -46,9 +46,10 @@ public class HomeController {
 	private MailUtil mailUtil;
 
 	@GetMapping("/")
-	public String indexPage(Model m) {
+	public String indexPage(Model m, @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
 		m.addAttribute("catagories", catagoryServ.activCatagory());
-		m.addAttribute("products", productService.fetchAllProduct());
+		m.addAttribute("products", productService.fetchAllProduct(pageNum, pageSize));
 		return "index";
 	}
 
@@ -63,10 +64,11 @@ public class HomeController {
 	}
 
 	@GetMapping("/product")
-	public String productPage(Model m, HttpSession session) {
-		m.addAttribute("products", productService.fetchAllProduct());
+	public String productPage(Model m, HttpSession session , @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
+		m.addAttribute("products", productService.fetchAllProduct(pageNum, pageSize));
 		m.addAttribute("catagories", catagoryServ.activCatagory());
-		session.setAttribute("products", productService.fetchAllProduct());
+		session.setAttribute("products", productService.fetchAllProduct(pageNum, pageSize));
 		session.setAttribute("catagories", catagoryServ.activCatagory());
 		return "products";
 	}
@@ -166,7 +168,7 @@ public class HomeController {
 
 	@PostMapping("/seachProd")
 	public String searchProd(@RequestParam String search, HttpSession session) {
-		List<ProductsDto> products = productService.fetchAllProduct(search,search);
+		List<ProductsDto> products = productService.fetchAllProduct(search, search);
 		session.setAttribute("products", products);
 		return "products";
 	}

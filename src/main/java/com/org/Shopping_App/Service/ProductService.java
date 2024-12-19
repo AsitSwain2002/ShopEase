@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.org.Shopping_App.Dto.ProductOrderDto;
 import com.org.Shopping_App.Dto.ProductsDto;
 
 public interface ProductService {
 
 	ProductsDto saveProduct(ProductsDto productDto);
 
-	List<ProductsDto> fetchAllProduct();
+	List<ProductsDto> fetchAllProduct(Integer pageNum, Integer pageSize);
 
 	void removeProduct(int id);
 
@@ -20,5 +21,7 @@ public interface ProductService {
 
 	List<ProductsDto> fetchAllByName(String name);
 
-	List<ProductsDto> fetchAllProduct(String keyword , String CatName);
+	List<ProductsDto> fetchAllProduct(String keyword, String CatName);
+
+	List<ProductsDto> searchByName(String name);
 }

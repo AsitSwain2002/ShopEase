@@ -24,6 +24,6 @@ public interface ProductOrderService {
 
 	ProductOrderDto updateOrderStatus(String status, int orderId);
 
-	ProductOrderDto searchId(String id);
+	List<ProductOrderDto> searchId(String id);
 
 }
