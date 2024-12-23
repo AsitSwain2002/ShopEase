@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -47,8 +48,17 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String indexPage(Model m, @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
-			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
-		m.addAttribute("catagories", catagoryServ.activCatagory());
+			@RequestParam(name = "pageSize", defaultValue = "12") Integer pageSize, HttpSession session) {
+		m.addAttribute("catagories", catagoryServ.activCatagory(pageNum, pageSize));
+		Page<ProductsDto> fetchAllProduct = productService.fetchAllProduct(pageNum, pageSize);
+		List<ProductsDto> content = fetchAllProduct.getContent();
+		m.addAttribute("size", content.size());
+		m.addAttribute("pageSize", fetchAllProduct.getSize());
+		m.addAttribute("totalPage", fetchAllProduct.getTotalPages());
+		m.addAttribute("pagenumber", fetchAllProduct.getNumber());
+		m.addAttribute("totalElement", fetchAllProduct.getTotalElements());
+		m.addAttribute("isFirst", fetchAllProduct.isFirst());
+		m.addAttribute("isLast", fetchAllProduct.isLast());
 		m.addAttribute("products", productService.fetchAllProduct(pageNum, pageSize));
 		return "index";
 	}
@@ -64,12 +74,24 @@ public class HomeController {
 	}
 
 	@GetMapping("/product")
-	public String productPage(Model m, HttpSession session , @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+	public String productPage(Model m, HttpSession session,
+			@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
 			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
 		m.addAttribute("products", productService.fetchAllProduct(pageNum, pageSize));
-		m.addAttribute("catagories", catagoryServ.activCatagory());
+		m.addAttribute("catagories", catagoryServ.activCatagory(pageNum, pageSize));
+
+		Page<ProductsDto> fetchAllProduct = productService.fetchAllProduct(pageNum, pageSize);
+		List<ProductsDto> content = fetchAllProduct.getContent();
+		m.addAttribute("size", content.size());
+		m.addAttribute("pageSize", fetchAllProduct.getSize());
+		m.addAttribute("totalPage", fetchAllProduct.getTotalPages());
+		m.addAttribute("pagenumber", fetchAllProduct.getNumber());
+		m.addAttribute("totalElement", fetchAllProduct.getTotalElements());
+		m.addAttribute("isFirst", fetchAllProduct.isFirst());
+		m.addAttribute("isLast", fetchAllProduct.isLast());
+
 		session.setAttribute("products", productService.fetchAllProduct(pageNum, pageSize));
-		session.setAttribute("catagories", catagoryServ.activCatagory());
+		session.setAttribute("catagories", catagoryServ.activCatagory(pageNum, pageSize));
 		return "products";
 	}
 
@@ -167,9 +189,19 @@ public class HomeController {
 	}
 
 	@PostMapping("/seachProd")
-	public String searchProd(@RequestParam String search, HttpSession session) {
-		List<ProductsDto> products = productService.fetchAllProduct(search, search);
-		session.setAttribute("products", products);
+	public String searchProd(@RequestParam String search, HttpSession session,
+			@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize, Model m) {
+		Page<ProductsDto> fetchAllProduct = productService.fetchAllProduct(search, search, pageNum, pageSize);
+		List<ProductsDto> content = fetchAllProduct.getContent();
+		m.addAttribute("size", content.size());
+		m.addAttribute("pageSize", fetchAllProduct.getSize());
+		m.addAttribute("totalPage", fetchAllProduct.getTotalPages());
+		m.addAttribute("pagenumber", fetchAllProduct.getNumber());
+		m.addAttribute("totalElement", fetchAllProduct.getTotalElements());
+		m.addAttribute("isFirst", fetchAllProduct.isFirst());
+		m.addAttribute("isLast", fetchAllProduct.isLast());
+		session.setAttribute("products", content);
 		return "products";
 	}
 }

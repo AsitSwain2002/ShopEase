@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -79,10 +82,12 @@ public class CatagoryServiceImpl implements CatagoryService {
 	}
 
 	@Override
-	public List<CatagoryDto> activCatagory() {
-
-		List<Catagory> catogory = catagoryRepo.findByStatusTrue();
-		return catogory.stream().map((e) -> modelMapper.map(e, CatagoryDto.class)).collect(Collectors.toList());
+	public Page<CatagoryDto> activCatagory(Integer pageNum, Integer pageSize) {
+		PageRequest pageable = PageRequest.of(pageNum, pageSize);
+		Page<Catagory> findByStatusTrue = catagoryRepo.findByStatusTrue(pageable);
+		List<CatagoryDto> collect = findByStatusTrue.stream().map((e) -> modelMapper.map(e, CatagoryDto.class))
+				.collect(Collectors.toList());
+		return new PageImpl<>(collect, pageable, findByStatusTrue.getTotalElements());
 	}
 
 }

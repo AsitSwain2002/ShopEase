@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -252,21 +253,31 @@ public class AdminController {
 
 	@PostMapping("/searchId")
 	public String searchId(@RequestParam String search, Model m) {
-		 List<ProductOrderDto> searchId = productOrderService.searchId(search);
+		List<ProductOrderDto> searchId = productOrderService.searchId(search);
 		m.addAttribute("allOrder", searchId);
 		return "admin/OrderUpdate";
 	}
 
 	@PostMapping("/searchProductByName")
-	public String searchProductByName(@RequestParam String name, Model m) {
-		List<ProductsDto> allProducts = productService.searchByName(name);
+	public String searchProductByName(@RequestParam String name, Model m,
+			@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
+		Page<ProductsDto> allProducts = productService.searchByName(name,pageNum,pageSize);
+		List<ProductsDto> content = allProducts.getContent();
+		m.addAttribute("size", content.size());
+		m.addAttribute("pageSize", allProducts.getSize());
+		m.addAttribute("totalPage", allProducts.getTotalPages());
+		m.addAttribute("pagenumber", allProducts.getNumber());
+		m.addAttribute("totalElement", allProducts.getTotalElements());
+		m.addAttribute("isFirst", allProducts.isFirst());
+		m.addAttribute("isLast", allProducts.isLast());
 		m.addAttribute("allProducts", allProducts);
 		return "/admin/viewProduct";
 	}
-	
+
 	@PostMapping("/searchUserByName")
 	public String searchUserByName(@RequestParam String name, Model m) {
-		 List<UserDto> fetchAllByName = userService.fetchAllUserByName(name);
+		List<UserDto> fetchAllByName = userService.fetchAllUserByName(name);
 		m.addAttribute("allUser", fetchAllByName);
 		return "admin/showAllUser";
 	}
