@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -52,10 +53,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductsDto> fetchAllProduct(Integer pageNum, Integer pageSize) {
+	public Page<ProductsDto> fetchAllProduct(Integer pageNum, Integer pageSize) {
 		Pageable pageable = PageRequest.of(pageNum, pageSize);
 		Page<Products> findAll = productRepo.findAll(pageable);
-		return findAll.stream().map((e) -> modelMapper.map(e, ProductsDto.class)).collect(Collectors.toList());
+		List<ProductsDto> dtoList = findAll.stream().map(e -> modelMapper.map(e, ProductsDto.class))
+				.collect(Collectors.toList());
+
+		return new PageImpl<>(dtoList, pageable, findAll.getTotalElements());
 	}
 
 	@Override
@@ -107,22 +111,32 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductsDto> fetchAllByName(String name) {
-		List<Products> products = productRepo.findAllByCatagory(name);
-		return products.stream().map((e) -> modelMapper.map(e, ProductsDto.class)).collect(Collectors.toList());
+	public Page<ProductsDto> fetchAllByName(String name, Integer pageNum, Integer pageSize) {
+		Pageable of = PageRequest.of(pageNum, pageSize);
+		Page<Products> findAllByCatagory = productRepo.findAllByCatagory(name, of);
+		List<ProductsDto> collect = findAllByCatagory.stream().map((e) -> modelMapper.map(e, ProductsDto.class))
+				.collect(Collectors.toList());
+		return new PageImpl<>(collect, of, findAllByCatagory.getTotalElements());
 	}
 
 	@Override
-	public List<ProductsDto> fetchAllProduct(String keyword, String CatName) {
-		List<Products> products = productRepo.findByTitleContainingIgnoreCaseOrCatagoryContainingIgnoreCase(keyword,
-				CatName);
-		return products.stream().map((m) -> modelMapper.map(m, ProductsDto.class)).collect(Collectors.toList());
+	public Page<ProductsDto> fetchAllProduct(String keyword, String CatName, Integer pageNum, Integer pageSize) {
+		Pageable of = PageRequest.of(pageNum, pageSize);
+		Page<Products> products = productRepo.findByTitleContainingIgnoreCaseOrCatagoryContainingIgnoreCase(keyword,
+				CatName, of);
+		List<ProductsDto> collect = products.stream().map((m) -> modelMapper.map(m, ProductsDto.class))
+				.collect(Collectors.toList());
+		return new PageImpl<>(collect, of, products.getTotalElements());
 	}
 
 	@Override
-	public List<ProductsDto> searchByName(String name) {
-		List<Products> products = productRepo.findByTitleContainingIgnoreCaseOrCatagoryContainingIgnoreCase(name, name);
-		return products.stream().map((p) -> modelMapper.map(p, ProductsDto.class)).collect(Collectors.toList());
+	public Page<ProductsDto> searchByName(String name, Integer pageNum, Integer pageSize) {
+		Pageable of = PageRequest.of(pageNum, pageSize);
+		Page<Products> products = productRepo.findByTitleContainingIgnoreCaseOrCatagoryContainingIgnoreCase(name, name,
+				of);
+		List<ProductsDto> collect = products.stream().map((m) -> modelMapper.map(m, ProductsDto.class))
+				.collect(Collectors.toList());
+		return new PageImpl<>(collect, of, products.getTotalElements());
 	}
 
 }

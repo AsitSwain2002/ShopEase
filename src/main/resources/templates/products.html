@@ -41,7 +41,7 @@
 							th:classappend="${c.name == catgoryName} ? 'active' : ''">
 							[[${c.name}]] </a>
 					</div>
-				</div>
+				</div>	
 			</div>
 			<div class="productsRight">
 				<div class="heading">
@@ -65,33 +65,21 @@
 					</div>
 					<!-- cart End -->
 				</div>
-				<!-- Admin Login -->
-				<!--				<div class="adminLogin">-->
-				<!--					<div class="close-icon-login">-->
-				<!--						<i class="ri-close-large-line"></i>-->
-				<!--					</div>-->
-				<!--					<div class="custom-card-header">-->
-				<!--						<p class="fs-4">Login</p>-->
-				<!--					</div>-->
-				<!--					<div class="custom-card-body">-->
-				<!--						<form action="#" method="post">-->
-				<!--							<div class="mb-3">-->
-				<!--								<label class="form-label">Email</label>-->
-				<!--								<input required class="form-control" name="username" type="email">-->
-				<!--							</div>-->
-				<!--							<div class="mb-3">-->
-				<!--								<label class="form-label">Password</label>-->
-				<!--								<input required class="form-control" name="password" type="password">-->
-				<!--							</div>-->
-				<!--							<button type="submit" class="btn-ad">Login</button>-->
-				<!--						</form>-->
-				<!--					</div>-->
-				<!--					<div class="custom-card-footer">-->
-				<!--						<a href="/forgot-password">Forgot Password</a><br>-->
-				<!--						Don't have an account? <a href="#">Create one</a>-->
-				<!--					</div>-->
-				<!--				</div>-->
-
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center mt-4">
+						<li class="page-item" th:classappend="${pagenumber == 0} ? 'disabled':''">
+							<a class="page-link" th:href="@{'/product?pageNum='+${pagenumber-1}}">Previous</a>
+						</li>
+						<li th:each="i:${#numbers.sequence(1,totalPage)}" class="page-item"
+							th:classappend="${pagenumber+1 == i} ? 'active':''"><a class="page-link"
+								th:href="@{'/product?pageNum='+${i-1}}">[[${i}]]</a></li>
+						<li class="page-item">
+							<a class="page-link" th:classappend="${isLast} ? 'disabled':''"
+								th:href="@{'/product?pageNum='+${pagenumber+1}}">Next</a>
+						</li>
+					</ul>
+					<h6>Total Element : [[${totalElement}]]</h6>
+				</nav>
 
 				<!--		Footer Start-->
 				<div class="container-fluid p-1 bg-primary text-center text-white">

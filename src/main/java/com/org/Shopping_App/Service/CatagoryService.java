@@ -2,6 +2,7 @@ package com.org.Shopping_App.Service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.org.Shopping_App.Dto.CatagoryDto;
@@ -20,6 +21,6 @@ public interface CatagoryService {
 	
 	public CatagoryDto findById(int id);
 	
-	public List<CatagoryDto> activCatagory();
+	public Page<CatagoryDto> activCatagory(Integer pageNum, Integer pageSize);
 
 }

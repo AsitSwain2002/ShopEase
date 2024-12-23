@@ -142,7 +142,7 @@ main {
 }
 
 .productsRightItems {
-	height: auto;
+	min-height: 80vh;
 	/* Adjust this if necessary */
 	width: 100%;
 	display: flex;
