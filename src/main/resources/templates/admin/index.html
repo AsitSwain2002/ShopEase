@@ -17,7 +17,7 @@
 </head>
 
 <body>
-	<div th:replace="admin/base :: body"></div>
+	<div th:replace="~{base :: body}"></div>
 
 	<main>
 		<div class="container p-5">
@@ -81,7 +81,7 @@
 				</div>
 
 				<div class="col-md-4 mt-4">
-					<a href="/admin/add-admin" class="text-decoration-none">
+					<a href="/admin/addAdmin" class="text-decoration-none">
 						<div class="card card-sh">
 							<div class="card-body text-center text-primary">
 								<i class="ri-user-add-line"></i>
@@ -92,7 +92,7 @@
 				</div>
 
 				<div class="col-md-4 mt-4">
-					<a href="/admin/users?type=2" class="text-decoration-none">
+					<a href="/admin/admins" class="text-decoration-none">
 						<div class="card card-sh">
 							<div class="card-body text-center text-primary">
 								<i class="ri-admin-fill"></i>

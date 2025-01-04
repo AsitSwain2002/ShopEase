@@ -33,12 +33,13 @@
 							</th:block>
 						</div>
 						<div class="card-body">
-							<form action="saveUser" enctype="multipart/form-data" id="userRegister" novalidate
+							<form action="/saveUser" enctype="multipart/form-data" id="userRegister" novalidate
 								method="post">
 								<div class="row">
 									<div class="col">
 										<label class="form-label">Full Name</label> <input required class="form-control"
 											name="name" type="text">
+											<input type="hidden" name="role" th:value="${RoleAdmin}"/>
 									</div>
 
 									<div class="col">

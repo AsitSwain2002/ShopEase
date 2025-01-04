@@ -8,9 +8,11 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -27,6 +29,7 @@ import com.org.Shopping_App.Dto.CatagoryDto;
 import com.org.Shopping_App.Dto.ProductOrderDto;
 import com.org.Shopping_App.Dto.ProductsDto;
 import com.org.Shopping_App.Dto.UserDto;
+import com.org.Shopping_App.Entity.User;
 import com.org.Shopping_App.Repo.UserRepo;
 import com.org.Shopping_App.Service.CatagoryService;
 import com.org.Shopping_App.Service.ProductOrderService;
@@ -45,6 +48,9 @@ public class AdminController {
 	private CatagoryService catagoryService;
 
 	@Autowired
+	private ModelMapper modelMapper;
+
+	@Autowired
 	private ProductService productService;
 
 	@Autowired
@@ -55,6 +61,9 @@ public class AdminController {
 
 	@Autowired
 	private MailUtil mailUtil;
+
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	@GetMapping("/")
 	public String viewIndex() {
@@ -103,8 +112,9 @@ public class AdminController {
 	}
 
 	@GetMapping("/updateCatagoryPage/{id}")
-	public String updateCatagoryPage(@PathVariable int id, HttpSession session) {
+	public String updateCatagoryPage(@PathVariable int id, HttpSession session, Model m) {
 		CatagoryDto catagoryDto = catagoryService.findById(id);
+		m.addAttribute("catagory", catagoryDto);
 		session.setAttribute("catagory", catagoryDto);
 		return "/admin/editCatagory";
 	}
@@ -164,12 +174,22 @@ public class AdminController {
 		return "redirect:/admin/loadAddProduct";
 	}
 
-	// View Product
-//	@GetMapping("/product")
-//	public String viewProduct(Model m) {
-//		m.addAttribute("allProducts", productService.fetchAllProduct());
-//		return "/admin/viewProduct";
-//	}
+//	 View Product
+	@GetMapping("/product")
+	public String viewProduct(Model m, @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", defaultValue = "5") Integer pageSize) {
+		Page<ProductsDto> fetchAllProduct = productService.fetchAllProduct(pageNum, pageSize);
+		List<ProductsDto> content = fetchAllProduct.getContent();
+		m.addAttribute("size", content.size());
+		m.addAttribute("pageSize", fetchAllProduct.getSize());
+		m.addAttribute("totalPage", fetchAllProduct.getTotalPages());
+		m.addAttribute("pagenumber", fetchAllProduct.getNumber());
+		m.addAttribute("totalElement", fetchAllProduct.getTotalElements());
+		m.addAttribute("isFirst", fetchAllProduct.isFirst());
+		m.addAttribute("isLast", fetchAllProduct.isLast());
+		m.addAttribute("allProducts", fetchAllProduct);
+		return "/admin/viewProduct";
+	}
 
 	// Remove Product
 	@GetMapping("/removeProduct/{id}")
@@ -201,11 +221,38 @@ public class AdminController {
 
 	// Fetch all User
 	@GetMapping("/users")
-	public String fetchAllUser(Model m) {
-		m.addAttribute("allUser", userService.fetchAllUser("USER"));
+	public String fetchAllUser(Model m, @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
+		Page<UserDto> fetchAllUser = userService.fetchAllUser("USER",pageNum,pageSize);
+		List<UserDto> content = fetchAllUser.getContent();
+		m.addAttribute("size", content.size());
+		m.addAttribute("pageSize", fetchAllUser.getSize());
+		m.addAttribute("totalPage", fetchAllUser.getTotalPages());
+		m.addAttribute("pagenumber", fetchAllUser.getNumber());
+		m.addAttribute("totalElement", fetchAllUser.getTotalElements());
+		m.addAttribute("isFirst", fetchAllUser.isFirst());
+		m.addAttribute("isLast", fetchAllUser.isLast());
+		
+		m.addAttribute("allUser", fetchAllUser);
 		return "admin/showAllUser";
 	}
-
+	
+	@GetMapping("/admins")
+	public String fetchAllAdmins(Model m, @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
+		Page<UserDto> fetchAllUser = userService.fetchAllUser("ADMIN",pageNum,pageSize);
+		List<UserDto> content = fetchAllUser.getContent();
+		m.addAttribute("size", content.size());
+		m.addAttribute("pageSize", fetchAllUser.getSize());
+		m.addAttribute("totalPage", fetchAllUser.getTotalPages());
+		m.addAttribute("pagenumber", fetchAllUser.getNumber());
+		m.addAttribute("totalElement", fetchAllUser.getTotalElements());
+		m.addAttribute("isFirst", fetchAllUser.isFirst());
+		m.addAttribute("isLast", fetchAllUser.isLast());
+		
+		m.addAttribute("allUser", fetchAllUser);
+		return "admin/showAllAdmin";
+	}
 	// Set User Status
 	@GetMapping("/updateStatus")
 	public String updartStatus(@RequestParam Boolean status, @RequestParam int id, HttpSession session) {
@@ -220,8 +267,17 @@ public class AdminController {
 	}
 
 	@GetMapping("/orders")
-	public String orderUpdatePage(Model m) {
-		List<ProductOrderDto> fetchAllOrder = productOrderService.fetchAllOrder();
+	public String orderUpdatePage(Model m, @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
+		Page<ProductOrderDto> fetchAllOrder = productOrderService.fetchAllOrder(pageNum, pageSize);
+		List<ProductOrderDto> content = fetchAllOrder.getContent();
+		m.addAttribute("size", content.size());
+		m.addAttribute("pageSize", fetchAllOrder.getSize());
+		m.addAttribute("totalPage", fetchAllOrder.getTotalPages());
+		m.addAttribute("pagenumber", fetchAllOrder.getNumber());
+		m.addAttribute("totalElement", fetchAllOrder.getTotalElements());
+		m.addAttribute("isFirst", fetchAllOrder.isFirst());
+		m.addAttribute("isLast", fetchAllOrder.isLast());
 		m.addAttribute("allOrder", fetchAllOrder);
 		return "admin/OrderUpdate";
 	}
@@ -241,9 +297,9 @@ public class AdminController {
 			boolean sendMailForProductOrder = mailUtil.sendMailForProductOrder(updateOrderStatus);
 			if (sendMailForProductOrder) {
 				session.setAttribute("mailSucc", "Mail Send Successfully");
-				System.out.println();
-				System.out.println("Mail Send Successfully");
-				System.out.println();
+//				System.out.println();
+//				System.out.println("Mail Send Successfully");
+//				System.out.println();
 			} else {
 				session.setAttribute("mailErr", "Mail Not Send");
 			}
@@ -262,7 +318,7 @@ public class AdminController {
 	public String searchProductByName(@RequestParam String name, Model m,
 			@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
 			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
-		Page<ProductsDto> allProducts = productService.searchByName(name,pageNum,pageSize);
+		Page<ProductsDto> allProducts = productService.searchByName(name, pageNum, pageSize);
 		List<ProductsDto> content = allProducts.getContent();
 		m.addAttribute("size", content.size());
 		m.addAttribute("pageSize", allProducts.getSize());
@@ -281,4 +337,12 @@ public class AdminController {
 		m.addAttribute("allUser", fetchAllByName);
 		return "admin/showAllUser";
 	}
+
+	@GetMapping("addAdmin")
+	public String addAdminPage(Model m) {
+		m.addAttribute("RoleAdmin","ADMIN");
+		return "register";
+	}
+
+
 }

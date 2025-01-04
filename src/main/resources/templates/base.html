@@ -47,13 +47,9 @@
 							<li class="nav-item">
 								<a class="nav-link active text-light" aria-current="page" href="/register">Register</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link active text-light" aria-current="page" href="#"><i
-										class="ri-user-fill me-1"></i>Admin </a>
-							</li>
 						</th:block>
 
-						<th:block th:if="${session.UserDetails != null}">
+						<th:block th:unless="${session.UserDetails == null}">
 							<li class="nav-item me-4 adminSelect nameee">
 								<th:block th:if="${session.UserDetails.role == 'ADMIN'}">
 									<a class="nav-link active text-light" aria-current="page" href="/admin/">
@@ -61,7 +57,8 @@
 									</a>
 								</th:block>
 								<th:block th:unless="${session.UserDetails.role == 'ADMIN'}">
-									<a class="nav-link active abc text-light" aria-current="page" href="/user/viewProfile">
+									<a class="nav-link active abc text-light" aria-current="page"
+										href="/user/viewProfile">
 										<i class="ri-user-fill me-1"></i>[[${session.UserDetails.name}]]
 									</a>
 								</th:block>

@@ -2,6 +2,7 @@ package com.org.Shopping_App.Service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
 import com.org.Shopping_App.Dto.ProductOrderDto;
@@ -16,11 +17,11 @@ public interface ProductOrderService {
 
 	ProductOrderDto searchById(int id);
 
-	List<ProductOrderDto> findAllById(int id);
+	Page<ProductOrderDto> findAllById(int id, Integer pageNum, Integer pageSize);
 
 	void cancelOrder(int orderId);
 
-	List<ProductOrderDto> fetchAllOrder();
+	Page<ProductOrderDto> fetchAllOrder(Integer pagrNum,Integer pageSize);
 
 	ProductOrderDto updateOrderStatus(String status, int orderId);
 

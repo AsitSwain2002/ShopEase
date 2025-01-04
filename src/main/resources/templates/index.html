@@ -35,7 +35,7 @@
 			<div class="items" th:each="c:${catagories}">
 				<a th:href="@{'/productCatgory/'+${c.name}}">
 					<img th:src="@{'img/category_img/'+${c.imageName}}" alt="">
-					<h5>[[${c.name}]]</h5>
+					<h6>[[${c.name}]]</h6>
 				</a>
 			</div>
 		</div>

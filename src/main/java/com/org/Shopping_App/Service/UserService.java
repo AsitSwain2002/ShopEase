@@ -1,17 +1,20 @@
 package com.org.Shopping_App.Service;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+
 import com.org.Shopping_App.Dto.UserDto;
 
 import jakarta.servlet.http.HttpSession;
 
 public interface UserService {
 
-	UserDto saveUser(UserDto userDto);
+	UserDto saveUser(UserDto userDto,String role);
 
 	public UserDto findByEmail(String email);
 
-	List<UserDto> fetchAllUser(String user);
+	Page<UserDto> fetchAllUser(String user,Integer pageNum,Integer pageSize);
 
 	UserDto updateStatus(boolean status, int id);
 
@@ -36,5 +39,5 @@ public interface UserService {
 	UserDto updatePassword(String oldPassword, String newPassword , String reEnterPassword, int userId , HttpSession session);
 	
 	List<UserDto> fetchAllUserByName(String name);
-	
+	UserDto saveAdmin(UserDto userDto);
 }

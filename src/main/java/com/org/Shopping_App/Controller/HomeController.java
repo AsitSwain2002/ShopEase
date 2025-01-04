@@ -97,11 +97,11 @@ public class HomeController {
 
 	@PostMapping("/saveUser")
 	public String saveUser(@ModelAttribute UserDto userDto, @RequestParam("img") MultipartFile file,
-			HttpSession session) throws IOException {
+			HttpSession session ,@RequestParam String role) throws IOException {
 
 		String imageName = file.isEmpty() ? "default.png" : file.getOriginalFilename();
 		userDto.setImage(imageName);
-		UserDto saveUser = userService.saveUser(userDto);
+		UserDto saveUser = userService.saveUser(userDto,role);
 
 		if (!ObjectUtils.isEmpty(saveUser)) {
 			if (!file.isEmpty()) {

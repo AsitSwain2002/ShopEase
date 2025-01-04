@@ -11,6 +11,10 @@ import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.org.Shopping_App.Dto.CartDto;
@@ -76,14 +80,13 @@ public class ProductOrderServImpl implements ProductOrderService {
 	}
 
 	@Override
-	public List<ProductOrderDto> findAllById(int id) {
-		List<ProductOrder> allOrder = productOrderRepo.findAllByUserId(id);
-//		System.out.println();
-//		System.out.println();
-//		System.out.println();
-//		System.out.println();
-//		System.out.println();
-		return allOrder.stream().map((e) -> modelMapper.map(e, ProductOrderDto.class)).collect(Collectors.toList());
+	public Page<ProductOrderDto> findAllById(int id, Integer pageNum, Integer pageSize) {
+
+		Pageable of = PageRequest.of(pageNum, pageSize);
+		Page<ProductOrder> allOrder = productOrderRepo.findAllByUserId(id, of);
+		List<ProductOrderDto> collect = allOrder.stream().map((e) -> modelMapper.map(e, ProductOrderDto.class))
+				.collect(Collectors.toList());
+		return new PageImpl<ProductOrderDto>(collect, of, allOrder.getTotalElements());
 	}
 
 	@Override
@@ -95,9 +98,12 @@ public class ProductOrderServImpl implements ProductOrderService {
 	}
 
 	@Override
-	public List<ProductOrderDto> fetchAllOrder() {
-		List<ProductOrder> findAll = productOrderRepo.findAll();
-		return findAll.stream().map((e) -> modelMapper.map(e, ProductOrderDto.class)).collect(Collectors.toList());
+	public Page<ProductOrderDto> fetchAllOrder(Integer pagrNum, Integer pageSize) {
+		Pageable of = PageRequest.of(pagrNum, pageSize);
+		Page<ProductOrder> findAll = productOrderRepo.findAll(of);
+		List<ProductOrderDto> collect = findAll.stream().map((e) -> modelMapper.map(e, ProductOrderDto.class))
+				.collect(Collectors.toList());
+		return new PageImpl<ProductOrderDto>(collect, of, findAll.getTotalElements());
 	}
 
 	@Override
@@ -112,7 +118,8 @@ public class ProductOrderServImpl implements ProductOrderService {
 	@Override
 	public List<ProductOrderDto> searchId(String id) {
 		List<ProductOrder> findByOrderId = productOrderRepo.findByOrderIdContainingIgnoreCase(id);
-		return findByOrderId.stream().map((e) -> modelMapper.map(e, ProductOrderDto.class)).collect(Collectors.toList());
-		}
+		return findByOrderId.stream().map((e) -> modelMapper.map(e, ProductOrderDto.class))
+				.collect(Collectors.toList());
+	}
 
 }

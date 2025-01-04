@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -132,8 +133,19 @@ public class UserController {
 	}
 
 	@GetMapping("/userOrderPage/{pId}")
-	public String userOrderPage(@PathVariable int pId, Model m, HttpSession session) {
-		List<ProductOrderDto> findAllById = productOrderService.findAllById(pId);
+	public String userOrderPage(@PathVariable int pId, Model m, HttpSession session,
+			@RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", defaultValue = "5") Integer pageSize) {
+		Page<ProductOrderDto> findAllById = productOrderService.findAllById(pId, pageNum, pageSize);
+		List<ProductOrderDto> content = findAllById.getContent();
+
+		m.addAttribute("size", content.size());
+		m.addAttribute("pageSize", findAllById.getSize());
+		m.addAttribute("totalPage", findAllById.getTotalPages());
+		m.addAttribute("pagenumber", findAllById.getNumber());
+		m.addAttribute("totalElement", findAllById.getTotalElements());
+		m.addAttribute("isFirst", findAllById.isFirst());
+		m.addAttribute("isLast", findAllById.isLast());
 		m.addAttribute("AllOrder", findAllById);
 		session.setAttribute("AllOrder", findAllById);
 		return "user/userOrderPage";

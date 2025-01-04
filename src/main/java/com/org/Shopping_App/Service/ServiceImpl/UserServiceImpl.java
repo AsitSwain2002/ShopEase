@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -32,10 +36,14 @@ public class UserServiceImpl implements UserService {
 	private PasswordEncoder encoder;
 
 	@Override
-	public UserDto saveUser(UserDto userDto) {
+	public UserDto saveUser(UserDto userDto,String role) {
 		userDto.setPassword(encoder.encode(userDto.getPassword()));
 		userDto.setActive(true);
+		if(role.equals("ADMIN")) {
+			userDto.setRole("ADMIN");
+		}else {
 		userDto.setRole("USER");
+		}
 		User user = modelMapper.map(userDto, User.class);
 		user.setFailedAttemp(0);
 		userRepo.save(user);
@@ -52,9 +60,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDto> fetchAllUser(String user) {
-		List<User> user1 = userRepo.findByRole(user);
-		return user1.stream().map((e) -> modelMapper.map(e, UserDto.class)).collect(Collectors.toList());
+	public Page<UserDto> fetchAllUser(String user,Integer pageNum,Integer pageSize) {		
+		Pageable of = PageRequest.of(pageNum, pageSize);
+		 Page<User> findByRole = userRepo.findByRole(user,of);
+		 List<User> content = findByRole.getContent();
+		 List<UserDto> collect = content.stream().map((e) -> modelMapper.map(e, UserDto.class)).collect(Collectors.toList());
+		 return new PageImpl<UserDto>(collect,of,findByRole.getTotalElements());
 	}
 
 	@Override
@@ -172,6 +183,17 @@ public class UserServiceImpl implements UserService {
 		System.out.println();
 		System.out.println();
 		return names.stream().map((n) -> modelMapper.map(n, UserDto.class)).collect(Collectors.toList());
+	}
+
+	@Override
+	public UserDto saveAdmin(UserDto userDto) {
+		userDto.setPassword(encoder.encode(userDto.getPassword()));
+		userDto.setActive(true);
+		userDto.setRole("ADMIN");
+		User user = modelMapper.map(userDto, User.class);
+		user.setFailedAttemp(0);
+		userRepo.save(user);
+		return modelMapper.map(user, UserDto.class);
 	}
 
 }
