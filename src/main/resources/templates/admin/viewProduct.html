@@ -34,7 +34,7 @@
 </head>
 
 <body>
-	<div th:replace="admin/base :: body"></div>
+	<div th:replace="base :: body"></div>
 
 	<div class="margintop searchB">
 		<form role="search" action="/admin/searchProductByName" method="post">
@@ -73,6 +73,21 @@
 			</td>
 		</tr>
 	</table>
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			<li class="page-item" th:classappend="${pagenumber == 0} ? 'disabled':''">
+				<a class="page-link" th:href="@{'/admin/product?pageNum='+${pagenumber-1}}">Previous</a>
+			</li>
+			<li th:each="i:${#numbers.sequence(1,totalPage)}" class="page-item"
+				th:classappend="${pagenumber+1 == i} ? 'active':''"><a class="page-link"
+					th:href="@{'/admin/product?pageNum='+${i-1}}">[[${i}]]</a></li>
+			<li class="page-item">
+				<a class="page-link" th:classappend="${isLast} ? 'disabled':''"
+					th:href="@{'/admin/product?pageNum='+${pagenumber+1}}">Next</a>
+			</li>
+		</ul>
+		<h6>Total Element : [[${totalElement}]]</h6>
+	</nav>
 </body>
 
 </html>

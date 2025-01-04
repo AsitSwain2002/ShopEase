@@ -36,6 +36,27 @@
 				</a>
 			</div>
 		</div>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center">
+				<li class="page-item" th:classappend="${pagenumber == 0} ? 'disabled':''">
+					<a class="page-link"
+						th:href="@{'/user/userOrderPage/'+${session.UserDetails.getId()}+'?pageNum='+${pagenumber - 1}}">
+						Previous
+					</a>
+
+				</li>
+				<li th:each="i:${#numbers.sequence(1,totalPage)}" class="page-item"
+					th:classappend="${pagenumber+1 == i} ? 'active':''">
+					<a class="page-link"
+						th:href="@{'/user/userOrderPage/'+${session.UserDetails.getId()}+'?pageNum='+${i-1}}">[[${i}]]</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link" th:classappend="${isLast} ? 'disabled':''"
+						th:href="@{'/user/userOrderPage/'+${session.UserDetails.getId()}+'?pageNum='+${pagenumber+1}}">Next</a>
+				</li>
+			</ul>
+			<h6>Total Element : [[${totalElement}]]</h6>
+		</nav>
 	</main>
 	<footer>
 		<div class="bg-primary text-center text-white">
