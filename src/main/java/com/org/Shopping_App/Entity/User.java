@@ -3,11 +3,15 @@ package com.org.Shopping_App.Entity;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.validation.annotation.Validated;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,11 +21,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Validated
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@NotEmpty(message = "Name Can Not Be Null")
 	private String name;
 	private long mobile;
 	private String email;
