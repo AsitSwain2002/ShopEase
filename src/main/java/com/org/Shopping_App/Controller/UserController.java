@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +32,7 @@ import com.org.Shopping_App.Service.UserService;
 import com.org.Shopping_App.util.MailUtil;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
@@ -119,13 +121,18 @@ public class UserController {
 	}
 
 	@GetMapping("/orderPage")
-	public String orderPage() {
+	public String orderPage(Model m) {
+		m.addAttribute("userAddress", new UserAddressDto());
 		return "user/orderPage";
 	}
 
 	@PostMapping("/orderNextPage/{id}")
-	public String orderNextPage(@RequestParam String paymentType, @ModelAttribute UserAddressDto userAddressDto,
-			@PathVariable("id") int userId, Model m, HttpSession session) {
+	public String orderNextPage(@RequestParam String paymentType, @Valid @ModelAttribute("userAddress") UserAddressDto userAddressDto,
+			BindingResult bindingResult, @PathVariable("id") int userId, Model m, HttpSession session) {
+
+		if (bindingResult.hasErrors()) {
+			return "user/orderPage";
+		}
 		productOrderService.saveProductOrder(userAddressDto, userId, paymentType, session);
 		cartService.removeAllCartItem(userId);
 		return "user/orderNextPagee";

@@ -17,25 +17,71 @@
 		<div class="mainContainer">
 			<div class="leftCon">
 				<div class="innCon">
-					<form th:action="@{'/user/orderNextPage/'+${session.UserDetails.getId()}}" method="post">
+					<form th:action="@{'/user/orderNextPage/'+${session.UserDetails.getId()}}"
+						th:object="${userAddress}" method="post">
 						<h2>Billing Address</h2>
-						<div class="name">
-							<input type="text" name="FirstName" id="FirstName" placeholder="First Name" class="input"
-								required>
-							<input type="text" name="LastName" id="LastName" placeholder="Last Name" class="input"
-								required>
+						<div class="FirstName">
+							<div class="divInnBox">
+								<input type="text" th:field="*{FirstName}" id="FirstName" placeholder="First Name"
+									class="input" required>
+								<p class="text-danger" th:if="${#fields.hasErrors('FirstName')}">
+									<span th:errors="*{FirstName}"></span>
+								</p>
+							</div>
+							<div class="divInnBox">
+								<input type="text" id="LastName" th:field="*{LastName}" placeholder="Last Name"
+									class="input" required>
+								<p class="text-danger" th:if="${#fields.hasErrors('LastName')}">
+									<span th:errors="*{LastName}"></span>
+								</p>
+							</div>
 						</div>
 						<div class="emailAndMobile">
-							<input type="email" name="email" id="email" placeholder="Email" class="input" required>
-							<input type="tel" name="mobile" id="mobile" placeholder="Mobile" class="input" required>
+							<div class="divInnBox">
+							<input type="email" th:field="*{email}" id="email" placeholder="Email" class="input"
+								required>
+							<p class="text-danger" th:if="${#fields.hasErrors('email')}">
+								<span th:errors="*{email}"></span>
+							</p>
+							</div>
+							<div class="divInnBox">
+								<input type="tel" th:field="*{mobile}" id="mobile" placeholder="Mobile" class="input"
+									required>
+								<p class="text-danger" th:if="${#fields.hasErrors('mobile')}">
+									<span th:errors="*{mobile}"></span>
+								</p>
+							</div>
 						</div>
 						<div class="addressAndCity">
-							<input type="text" name="address" id="address" placeholder="Address" class="input" required>
-							<input type="text" name="city" id="city" placeholder="City" class="input" required>
+							<div class="divInnBox">
+							<input type="text" th:field="*{address}" id="address" placeholder="Address" class="input"
+								required>
+							<p class="text-danger" th:if="${#fields.hasErrors('address')}">
+								<span th:errors="*{address}"></span>
+							</p>
+							</div>
+							<div class="divInnBox">
+							<input type="text" th:field="*{city}" id="city" placeholder="City" class="input" required>
+							<p class="text-danger" th:if="${#fields.hasErrors('city')}">
+								<span th:errors="*{city}"></span>
+							</p>
+							</div>
 						</div>
 						<div class="state">
-							<input type="text" name="state" id="state" placeholder="State" class="input" required>
-							<input type="tel" name="pincode" id="pincode" placeholder="Pincode" class="input" required>
+							<div class="divInnBox">
+							<input type="text" th:field="*{state}" id="state" placeholder="State" class="input"
+								required>
+							<p class="text-danger" th:if="${#fields.hasErrors('state')}">
+								<span th:errors="*{state}"></span>
+							</p>
+							</div>
+							<div class="divInnBox">
+							<input type="tel" th:field="*{pincode}" id="pincode" placeholder="Pincode" class="input"
+								required>
+							<p class="text-danger" th:if="${#fields.hasErrors('pincode')}">
+								<span th:errors="*{pincode}"></span>
+							</p>
+							</div>
 						</div>
 				</div>
 			</div>

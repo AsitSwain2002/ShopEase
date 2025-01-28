@@ -36,15 +36,36 @@ public class UserServiceImpl implements UserService {
 	private PasswordEncoder encoder;
 
 	@Override
-	public UserDto saveUser(UserDto userDto,String role) {
-		userDto.setPassword(encoder.encode(userDto.getPassword()));
-		userDto.setActive(true);
-		if(role.equals("ADMIN")) {
-			userDto.setRole("ADMIN");
-		}else {
-		userDto.setRole("USER");
-		}
+	public UserDto saveUser(UserDto userDto, String role, HttpSession session) {
 		User user = modelMapper.map(userDto, User.class);
+		user.setPassword(encoder.encode(userDto.getPassword()));
+		user.setConfirmPassword(encoder.encode(userDto.getConfirmPassword()));
+		user.setActive(true);
+		if (role.equals("ADMIN")) {
+			user.setRole("ADMIN");
+		} else {
+			user.setRole("USER");
+		}
+		
+		// Check All Details Present In Th eData BAse Before Or Not
+		if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
+			session.setAttribute("errorMsg", "Password Did Not match");
+			return null;
+		}
+		System.out.println(userRepo.existsByName(userDto.getName()));
+		if (userRepo.existsByName(userDto.getName())) {
+			session.setAttribute("errorMsg", "Name Already Present");
+			return null;
+		}		 
+		if (userRepo.existsByMobile(userDto.getMobile())) {
+			session.setAttribute("errorMsg", "Mobile Number Already Present");
+			return null;
+		}
+		if (userRepo.existsByEmail(userDto.getEmail())) {
+			session.setAttribute("errorMsg", "Email Already Present");
+			return null;
+		}
+		//
 		user.setFailedAttemp(0);
 		userRepo.save(user);
 		return modelMapper.map(user, UserDto.class);
@@ -60,12 +81,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Page<UserDto> fetchAllUser(String user,Integer pageNum,Integer pageSize) {		
+	public Page<UserDto> fetchAllUser(String user, Integer pageNum, Integer pageSize) {
 		Pageable of = PageRequest.of(pageNum, pageSize);
-		 Page<User> findByRole = userRepo.findByRole(user,of);
-		 List<User> content = findByRole.getContent();
-		 List<UserDto> collect = content.stream().map((e) -> modelMapper.map(e, UserDto.class)).collect(Collectors.toList());
-		 return new PageImpl<UserDto>(collect,of,findByRole.getTotalElements());
+		Page<User> findByRole = userRepo.findByRole(user, of);
+		List<User> content = findByRole.getContent();
+		List<UserDto> collect = content.stream().map((e) -> modelMapper.map(e, UserDto.class))
+				.collect(Collectors.toList());
+		return new PageImpl<UserDto>(collect, of, findByRole.getTotalElements());
 	}
 
 	@Override

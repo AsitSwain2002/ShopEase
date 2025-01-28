@@ -21,6 +21,6 @@ public interface CatagoryService {
 	
 	public CatagoryDto findById(int id);
 	
-	public Page<CatagoryDto> activCatagory(Integer pageNum, Integer pageSize);
+	public List<CatagoryDto> activCatagory(Integer pageNum, Integer pageSize);
 
 }

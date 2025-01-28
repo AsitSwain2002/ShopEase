@@ -32,7 +32,7 @@
 
 		<!-- Catagory Items -->
 		<div class="catagoryItems margin">
-			<div class="items" th:each="c:${catagories}">
+			<div class="items" th:each="c:${session.catagory}">
 				<a th:href="@{'/productCatgory/'+${c.name}}">
 					<img th:src="@{'img/category_img/'+${c.imageName}}" alt="">
 					<h6>[[${c.name}]]</h6>
