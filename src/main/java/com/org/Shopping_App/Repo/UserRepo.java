@@ -16,12 +16,15 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
 	User findByEmail(String email);
 
-	Page<User> findByRole(String role,Pageable page);
+	Page<User> findByRole(String role, Pageable page);
 
 	User findByToken(String token);
-	
+
 	@Query("SELECT u FROM User u WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :name, '%'))")
 	List<User> findAllByName(@Param("name") String name);
 
+	boolean existsByName(String name);
+	boolean existsByEmail(String email);
+	boolean existsByMobile(String mobile);
 
 }

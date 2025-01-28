@@ -33,25 +33,34 @@
 							</th:block>
 						</div>
 						<div class="card-body">
-							<form action="/saveUser" enctype="multipart/form-data" id="userRegister" novalidate
-								method="post">
+							<form action="/saveUser" th:object="${user}" enctype="multipart/form-data" id="userRegister"
+								novalidate method="post">
 								<div class="row">
 									<div class="col">
 										<label class="form-label">Full Name</label> <input required class="form-control"
-											name="name" type="text">
-											<input type="hidden" name="role" th:value="${RoleAdmin}"/>
+											th:field="*{name}" type="text">
+										<p class="text-danger" th:if="${#fields.hasErrors('name')}">
+											<span th:errors="*{name}"></span>
+										</p>
+										<input type="hidden" name="role" th:value="${RoleAdmin}" />
 									</div>
 
 									<div class="col">
 										<label class="form-label">Mobile Number</label> <input required
-											class="form-control" name="mobile" type="number">
+											class="form-control" th:field="*{mobile}"  type="number">
+											<p class="text-danger" th:if="${#fields.hasErrors('mobile')}">
+											<span th:errors="*{mobile}"></span>
+										</p>
 									</div>
 
 								</div>
 
 								<div class="mb-3">
 									<label class="form-label">Email</label> <input required class="form-control"
-										name="email" type="email">
+										th:field="*{email}" type="email">
+										<p class="text-danger" th:if="${#fields.hasErrors('email')}">
+											<span th:errors="*{email}"></span>
+										</p>
 								</div>
 
 
@@ -85,12 +94,18 @@
 								<div class="row">
 									<div class="col">
 										<label class="form-label">Password</label> <input required class="form-control"
-											name="password" type="password" id="pass">
+											th:field="*{password}" type="password" id="pass">
+											<p class="text-danger" th:if="${#fields.hasErrors('password')}">
+											<span th:errors="*{password}"></span>
+										</p>
 									</div>
 
 									<div class="col">
 										<label class="form-label">Confirm Password</label> <input required
-											class="form-control" name="confirmpassword" type="password">
+											class="form-control"th:field="*{confirmPassword}" type="password">
+											<p class="text-danger" th:if="${#fields.hasErrors('confirmPassword')}">
+											<span th:errors="*{confirmPassword}"></span>
+										</p>
 									</div>
 
 								</div>

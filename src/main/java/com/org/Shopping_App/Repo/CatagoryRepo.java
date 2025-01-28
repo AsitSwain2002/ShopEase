@@ -1,6 +1,8 @@
 package com.org.Shopping_App.Repo;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +15,5 @@ public interface CatagoryRepo extends JpaRepository<Catagory, Integer> {
 
 	boolean existsByName(String name);
 
-	Page<Catagory> findByStatusTrue(Pageable page);
+	List<Catagory> findByStatusTrue();
 }

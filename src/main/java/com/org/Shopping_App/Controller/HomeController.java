@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.org.Shopping_App.Dto.ProductsDto;
 import com.org.Shopping_App.Dto.UserDto;
+import com.org.Shopping_App.Entity.User;
 import com.org.Shopping_App.Service.CatagoryService;
 import com.org.Shopping_App.Service.ProductService;
 import com.org.Shopping_App.Service.UserService;
@@ -33,6 +35,8 @@ import com.org.Shopping_App.util.MailUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import lombok.val;
 
 @Controller
 public class HomeController {
@@ -49,7 +53,8 @@ public class HomeController {
 	@GetMapping("/")
 	public String indexPage(Model m, @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
 			@RequestParam(name = "pageSize", defaultValue = "12") Integer pageSize, HttpSession session) {
-		m.addAttribute("catagories", catagoryServ.activCatagory(pageNum, pageSize));
+//		m.addAttribute("catagories", catagoryServ.activCatagory(pageNum, pageSize));
+		session.setAttribute("catagory", catagoryServ.activCatagory(pageNum, pageSize));
 		Page<ProductsDto> fetchAllProduct = productService.fetchAllProduct(pageNum, pageSize);
 		List<ProductsDto> content = fetchAllProduct.getContent();
 		m.addAttribute("size", content.size());
@@ -64,7 +69,8 @@ public class HomeController {
 	}
 
 	@GetMapping("/register")
-	public String registerPage() {
+	public String registerPage(Model model) {
+		 model.addAttribute("user", new UserDto());
 		return "register";
 	}
 
@@ -96,25 +102,25 @@ public class HomeController {
 	}
 
 	@PostMapping("/saveUser")
-	public String saveUser(@ModelAttribute UserDto userDto, @RequestParam("img") MultipartFile file,
-			HttpSession session ,@RequestParam String role) throws IOException {
+	public String saveUser(@Valid @ModelAttribute("user") UserDto userDto,BindingResult bindingResult, @RequestParam("img") MultipartFile file,
+			HttpSession session, @RequestParam String role) throws IOException {
 
+		if (bindingResult.hasErrors()) {
+			return "register";
+		}
 		String imageName = file.isEmpty() ? "default.png" : file.getOriginalFilename();
 		userDto.setImage(imageName);
-		UserDto saveUser = userService.saveUser(userDto,role);
+		UserDto saveUser = userService.saveUser(userDto, role,session);
 
 		if (!ObjectUtils.isEmpty(saveUser)) {
 			if (!file.isEmpty()) {
 				File saveFile = new ClassPathResource("static/img/").getFile();
 				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" + File.separator
 						+ file.getOriginalFilename());
-				System.out.println(path);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 			}
 			session.setAttribute("succMsg", "Saved SuccessFully");
-		} else {
-			session.setAttribute("errorMsg", "Something Went  Wrong");
-		}
+		} 
 		return "redirect:/register";
 	}
 

@@ -122,10 +122,12 @@ public class AdminController {
 	@PostMapping("/updateCatagory")
 	public String updateCatagory(@ModelAttribute CatagoryDto catagoryDto, @RequestParam int id,
 			@RequestParam("file") MultipartFile file, HttpSession session) {
-		catagoryService.updateCatagory(id, catagoryDto, file);
+		CatagoryDto updateCatagory = catagoryService.updateCatagory(id, catagoryDto, file);
+		if (ObjectUtils.isEmpty(updateCatagory)) {
+			session.setAttribute("errorMsg", "Something Went Wrong");
+		}
 		session.setAttribute("successMsg", "Updated Successfully");
-		session.setAttribute("errorMsg", "Something Went Wrong");
-		return "redirect:/admin/updateCatagoryPage/" + catagoryDto.getId();
+		return "redirect:/admin/updateCatagoryPage/" + id;
 	}
 
 	@GetMapping("/deleteCatagory/{id}")
@@ -216,14 +218,14 @@ public class AdminController {
 		productService.updateProduct(productsDto, id, file);
 		session.setAttribute("successMsg", "Updated Successfully");
 		session.setAttribute("errorMsg", "Something Went Wrong");
-		return "redirect:/admin/product";
+		return "redirect:/admin/editProduct/"+id;
 	}
 
 	// Fetch all User
 	@GetMapping("/users")
 	public String fetchAllUser(Model m, @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
 			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
-		Page<UserDto> fetchAllUser = userService.fetchAllUser("USER",pageNum,pageSize);
+		Page<UserDto> fetchAllUser = userService.fetchAllUser("USER", pageNum, pageSize);
 		List<UserDto> content = fetchAllUser.getContent();
 		m.addAttribute("size", content.size());
 		m.addAttribute("pageSize", fetchAllUser.getSize());
@@ -232,15 +234,15 @@ public class AdminController {
 		m.addAttribute("totalElement", fetchAllUser.getTotalElements());
 		m.addAttribute("isFirst", fetchAllUser.isFirst());
 		m.addAttribute("isLast", fetchAllUser.isLast());
-		
+
 		m.addAttribute("allUser", fetchAllUser);
 		return "admin/showAllUser";
 	}
-	
+
 	@GetMapping("/admins")
 	public String fetchAllAdmins(Model m, @RequestParam(name = "pageNum", defaultValue = "0") Integer pageNum,
 			@RequestParam(name = "pageSize", defaultValue = "8") Integer pageSize) {
-		Page<UserDto> fetchAllUser = userService.fetchAllUser("ADMIN",pageNum,pageSize);
+		Page<UserDto> fetchAllUser = userService.fetchAllUser("ADMIN", pageNum, pageSize);
 		List<UserDto> content = fetchAllUser.getContent();
 		m.addAttribute("size", content.size());
 		m.addAttribute("pageSize", fetchAllUser.getSize());
@@ -249,10 +251,11 @@ public class AdminController {
 		m.addAttribute("totalElement", fetchAllUser.getTotalElements());
 		m.addAttribute("isFirst", fetchAllUser.isFirst());
 		m.addAttribute("isLast", fetchAllUser.isLast());
-		
+
 		m.addAttribute("allUser", fetchAllUser);
 		return "admin/showAllAdmin";
 	}
+
 	// Set User Status
 	@GetMapping("/updateStatus")
 	public String updartStatus(@RequestParam Boolean status, @RequestParam int id, HttpSession session) {
@@ -338,11 +341,11 @@ public class AdminController {
 		return "admin/showAllUser";
 	}
 
-	@GetMapping("addAdmin")
+	@GetMapping("/addAdmin")
 	public String addAdminPage(Model m) {
-		m.addAttribute("RoleAdmin","ADMIN");
+		m.addAttribute("RoleAdmin", "ADMIN");
+		m.addAttribute("user", new UserDto());
 		return "register";
 	}
-
 
 }

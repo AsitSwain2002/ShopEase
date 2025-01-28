@@ -1,13 +1,20 @@
 package com.org.Shopping_App.Service.ServiceImpl;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -103,6 +110,16 @@ public class ProductServiceImpl implements ProductService {
 			product.setDiscount(productDto.getDiscount());
 			product.setDiscountPrice(originalPrice);
 			productRepo.save(product);
+			if (!file.isEmpty()) {
+				try {
+					File saveFile = new ClassPathResource("static/img/category_img").getFile();
+					Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+					Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
 			return modelMapper.map(product, ProductsDto.class);
 		} else {
 			System.out.println("Else Block Execute");

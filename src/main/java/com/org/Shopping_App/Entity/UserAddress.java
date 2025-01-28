@@ -18,11 +18,11 @@ public class UserAddress {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private long mobile;
+	private String mobile;
 	private String address;
 	private String city;
 	private String state;
-	private long pincode;
+	private String pincode;
 	@OneToOne(cascade = CascadeType.ALL)
 	private ProductOrder productorder;
 }

@@ -25,40 +25,60 @@ header {
 .leftCon {
 	height: 100%;
 	width: 65%;
+	margin-top: 40px;
 }
 
 .innCon {
-	height: 40%;
+	height: 60%;
 	width: 100%;
-	margin: 10px 0;
+	padding: 30px 0;
 	background-color: #F5FAFF;
 }
 
-.innCon>h2 {
+.innCon>form {
+	height: 100%;
+	width: 100%;
+}
+
+form>h2 {
 	text-align: center;
 	padding: 10px;
 }
 
-.innCon>.name,
+
+.FirstName,
 .emailAndMobile,
 .addressAndCity,
 .state {
-	height: 15%;
+	height: 10%;
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-top: 10px;
+	margin-top: 20px;
 
+}
+
+.divInnBox {
+	height: 100%;
+	width: 47%;
+	display: flex;
+	flex-direction: column;
+}
+
+.divInnBox>p {
+	font-size: 13px;
+	font-weight: 600;
+	margin: 0px 7px;
 }
 
 .input {
 	height: 90%;
-	width: 47%;
+	width: 100%;
 	font-size: 16px;
 	padding-left: 5px;
 	outline: none;
-	margin: 7px 5px;
+	margin: 3px 7px;
 	background-color: #FFFFFF;
 	border: 1px solid #e0e0e0;
 }
@@ -95,7 +115,7 @@ header {
 }
 
 .payment {
-	height: 15%;
+	height: 20%;
 	width: 100%;
 }
 
@@ -126,11 +146,6 @@ header {
 	border: 1px solid #0D6EFD;
 	margin: 5px 5px 0 0px;
 	border-radius: 5px;
-}
-
-.box6>a {
-	height: 100%;
-	width: 100%;
 }
 
 .sub {

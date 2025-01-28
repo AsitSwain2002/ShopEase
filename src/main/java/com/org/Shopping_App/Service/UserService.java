@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 public interface UserService {
 
-	UserDto saveUser(UserDto userDto,String role);
+	UserDto saveUser(UserDto userDto,String role,HttpSession session);
 
 	public UserDto findByEmail(String email);
 

@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -18,24 +19,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@Validated
+@Data
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@NotEmpty(message = "Name Can Not Be Null")
 	private String name;
-	private long mobile;
+	private String mobile;
 	private String email;
 	private String address;
 	private String city;
 	private String state;
 	private int pincode;
 	private String password;
+	private String confirmPassword;
 	private String image;
 	private String role;
 	private boolean isActive;
